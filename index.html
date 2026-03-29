@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>НАШЕ ДОСТОЯНИЕ | СЕМЬЯ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@1,400;1,600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>БЕСЦЕННЫЕ | СЕМЬЯ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,600&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #fafafa;
-            --text: #222;
-            --accent: #d4af37; /* Золотой */
-            --sub-accent: #fdf2f2; /* Розоватый фон */
-            --light-text: #666;
+            --gold: #c5a059;
+            --bg: #0a0a0a; /* Глубокий темный для премиального вида */
+            --text: #ffffff;
+            --soft-white: rgba(255, 255, 255, 0.7);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -19,115 +18,158 @@
             background: var(--bg); 
             color: var(--text); 
             font-family: 'Montserrat', sans-serif; 
-            font-weight: 300; 
-            scroll-behavior: smooth;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Анимация плавного появления */
-        .fade-in { opacity: 0; transform: translateY(20px); transition: 1s all ease-out; }
-        .fade-in.active { opacity: 1; transform: translateY(0); }
-
-        h1, h2, h3 { font-family: 'Cormorant Infant', serif; font-style: italic; font-weight: 600; }
-        
-        section { min-height: 100vh; padding: 100px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .container { max-width: 1000px; width: 100%; text-align: center; }
-
-        /* HERO */
-        #hero { background-color: var(--sub-accent); border-bottom: 1px solid #eee; }
-        #hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); color: var(--accent); margin-bottom: 20px; }
-        #hero p { font-size: 1.2rem; color: var(--light-text); max-width: 600px; margin: 0 auto; }
-
-        /* УНИВЕРСАЛЬНАЯ КАРТОЧКА (для сестер и мамы) */
-        .person-card {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px; align-items: center; margin-bottom: 120px; text-align: left;
+        /* Кастомный курсор-свечение */
+        #cursor-blur {
+            position: fixed; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.1) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none; z-index: 0; transform: translate(-50%, -50%);
         }
-        .person-img-box {
-            position: relative;
-            box-shadow: 20px 20px 0 var(--accent);
-            transition: 0.5s;
+
+        section { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; padding: 100px 5%; overflow: hidden; }
+
+        /* Анимации появления */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        h1, h2 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; letter-spacing: 2px; }
+
+        /* HERO SECTION */
+        #hero { text-align: center; background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%); }
+        .hero-title { font-size: clamp(3rem, 10vw, 7rem); margin-bottom: 20px; color: var(--gold); }
+        .hero-sub { font-size: 1rem; text-transform: uppercase; letter-spacing: 8px; color: var(--soft-white); }
+
+        /* ФОТО-БЛОКИ */
+        .content-wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; gap: 50px; z-index: 1; }
+        .content-wrap.reverse { flex-direction: row-reverse; }
+
+        .image-container { 
+            position: relative; width: 50%; height: 600px; 
+            overflow: hidden; border: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 15px; background: rgba(255,255,255,0.02);
         }
-        .person-img-box:hover { transform: translate(-5px, -5px); box-shadow: 25px 25px 0 var(--accent); }
-        .person-card img { width: 100%; height: auto; display: block; filter: sepia(20%); }
-        
-        .person-info h3 { font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
-        .person-info p { color: var(--light-text); line-height: 1.8; margin-bottom: 15px; }
-        
-        .quote { font-style: italic; color: #888; border-left: 2px solid var(--accent); padding-left: 15px; margin-top: 20px; }
+        .image-container img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(40%) contrast(110%); transition: 1s; 
+        }
+        .image-container:hover img { filter: grayscale(0%); transform: scale(1.05); }
 
-        footer { background: #111; color: #fff; padding: 40px; text-align: center; font-size: 0.8rem; letter-spacing: 1px; }
+        .text-side { width: 40%; }
+        .role-label { color: var(--gold); font-size: 0.8rem; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 15px; display: block; }
+        .name-title { font-size: 3.5rem; margin-bottom: 25px; border-bottom: 1px solid var(--gold); display: inline-block; padding-bottom: 10px; }
+        .description { font-size: 1.1rem; color: var(--soft-white); font-weight: 200; }
 
+        /* ДЕКОР */
+        .bg-number { 
+            position: absolute; font-size: 25rem; font-family: 'Cormorant Garamond'; 
+            color: rgba(197, 160, 89, 0.03); z-index: 0; pointer-events: none; 
+        }
+
+        footer { padding: 100px 0; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.2); }
+        .footer-logo { font-family: 'Cormorant Garamond'; font-size: 2rem; color: var(--gold); }
+
+        @media (max-width: 900px) {
+            .content-wrap, .content-wrap.reverse { flex-direction: column; text-align: center; }
+            .image-container, .text-side { width: 100%; height: 400px; }
+            .bg-number { display: none; }
+        }
     </style>
 </head>
 <body>
 
+    <div id="cursor-blur"></div>
+
     <section id="hero">
-        <div class="container">
-            <h1 class="fade-in">Свет Нашей Жизни</h1>
-            <p class="fade-in">Сайт, посвященный самым дорогим и любимым: маме, Ангелине и Кристине.</p>
+        <div class="reveal">
+            <p class="hero-sub">The Family Heritage</p>
+            <h1 class="hero-title">Искусство Быть Семьей</h1>
+            <div style="width: 50px; height: 1px; background: var(--gold); margin: 0 auto;"></div>
         </div>
     </section>
 
-    <section id="mama" class="fade-in" style="background: #fff;">
-        <div class="container">
-            <h2>НАША ГЛАВНАЯ ОПОРА</h2>
-            <div class="person-card" style="margin-top: 80px;">
-                <div class="person-img-box">
-                    <img src="https://images.unsplash.com/photo-1574068468668-107a61f448b2?auto=format&fit=crop&w=800&q=80" alt="Наша Мама">
-                </div>
-                <div class="person-info">
-                    <h3>МАМА</h3>
-                    <p>Сердце нашей семьи. Человек, чья любовь безгранична, а мудрость помогает нам каждый день. Спасибо тебе за тепло, заботу и за то, что ты есть.</p>
-                    <p class="quote">"Мама — это синоним слова Любовь."</p>
-                </div>
+    <section id="mama">
+        <span class="bg-number" style="right: 5%;">01</span>
+        <div class="content-wrap reveal">
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1000&q=80" alt="Мама">
+            </div>
+            <div class="text-side">
+                <span class="role-label">Главная Опора</span>
+                <h2 class="name-title">Мама</h2>
+                <p class="description">Душа нашего дома. Твое доброе сердце — это тихая гавань, где всегда тепло и спокойно. Ты научила нас любить мир и верить в лучшее.</p>
             </div>
         </div>
     </section>
 
-    <section id="sisters" class="fade-in">
-        <div class="container">
-            <h2>МОИ ЛЮБИМЫЕ СЁСТРЫ</h2>
-            
-            <div class="person-card" style="margin-top: 80px;">
-                <div class="person-img-box">
-                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80" alt="Ангелина">
-                </div>
-                <div class="person-info">
-                    <h3>АНГЕЛИНА</h3>
-                    <p>Творческая, яркая и невероятно добрая. Ты приносишь свет и радость в нашу жизнь. Горжусь тем, что ты моя сестра.</p>
-                </div>
+    <section id="angelina">
+        <span class="bg-number" style="left: 5%;">02</span>
+        <div class="content-wrap reverse reveal">
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1000&q=80" alt="Ангелина">
             </div>
-
-            <div class="person-card">
-                <div class="person-info" style="text-align: right;">
-                    <h3>КРИСТИНА</h3>
-                    <p>Энергичная, целеустремленная и всегда готовая поддержать. Твоя улыбка способна разогнать любые тучи. С тобой всегда весело и тепло.</p>
-                </div>
-                <div class="person-img-box">
-                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80" alt="Кристина">
-                </div>
+            <div class="text-side">
+                <span class="role-label">Вдохновение</span>
+                <h2 class="name-title">Ангелина</h2>
+                <p class="description">Грация и свет. Ты умеешь видеть красоту в деталях и наполнять пространство вокруг себя невероятной энергией.</p>
             </div>
+        </div>
+    </section>
 
+    <section id="kristina">
+        <span class="bg-number" style="right: 5%;">03</span>
+        <div class="content-wrap reveal">
+            <div class="image-container">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=80" alt="Кристина">
+            </div>
+            <div class="text-side">
+                <span class="role-label">Энергия Жизни</span>
+                <h2 class="name-title">Кристина</h2>
+                <p class="description">Яркое солнце нашей семьи. Твоя решительность и искренняя улыбка заставляют двигаться вперед, несмотря на любые преграды.</p>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2077. Сайт создан с любовью для моей семьи.</p>
+        <div class="reveal">
+            <div class="footer-logo">S A R A P U L L O V E</div>
+            <p style="font-size: 0.6rem; letter-spacing: 3px; color: #444; margin-top: 20px;">DESIGNED FOR THE LOVED ONES | 2026</p>
+        </div>
     </footer>
 
     <script>
-        // Анимация появления при скролле
+        // Движение свечения за мышью
+        const blur = document.getElementById('cursor-blur');
+        document.addEventListener('mousemove', (e) => {
+            blur.style.left = e.clientX + 'px';
+            blur.style.top = e.clientY + 'px';
+        });
+
+        // Плавное появление элементов
         function reveal() {
-            var reveals = document.querySelectorAll(".fade-in");
-            reveals.forEach(r => {
-                var windowHeight = window.innerHeight;
-                var elementTop = r.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 50) { r.classList.add("active"); }
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add("active");
+                }
             });
         }
-        window.addEventListener("scroll", reveal);
-        reveal(); // Запуск один раз при загрузке
-    </script>
 
+        window.addEventListener("scroll", reveal);
+        reveal(); // Чтобы первый экран сразу был виден
+
+        // Эффект параллакса для больших цифр
+        window.addEventListener("scroll", () => {
+            const scrolled = window.pageYOffset;
+            document.querySelectorAll('.bg-number').forEach(num => {
+                const speed = 0.2;
+                num.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
 </body>
 </html>

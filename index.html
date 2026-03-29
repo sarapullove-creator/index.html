@@ -2,202 +2,217 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>S A R A P U L L O V E | LEGACY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,600&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,600&family=Montserrat:wght@100;300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #c5a059;
-            --neon-gold: rgba(197, 160, 89, 0.4);
-            --bg: #0a0a0a;
+            --neon-gold: rgba(197, 160, 89, 0.3);
+            --bg: #030303;
             --text: #ffffff;
-            --soft-white: rgba(255, 255, 255, 0.7);
-            --border: rgba(197, 160, 89, 0.3);
+            --soft-white: rgba(255, 255, 255, 0.6);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; scroll-behavior: smooth; }
-
-        #cursor-blur {
-            position: fixed; width: 450px; height: 450px;
-            background: radial-gradient(circle, rgba(197, 160, 89, 0.08) 0%, transparent 75%);
-            border-radius: 50%; pointer-events: none; z-index: 0; transform: translate(-50%, -50%);
-            opacity: 0; transition: opacity 1s ease;
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background: var(--bg); color: var(--text); 
+            font-family: 'Montserrat', sans-serif; overflow-x: hidden;
+            line-height: 1.4; scroll-behavior: smooth;
+            background-attachment: fixed;
         }
 
-        .reveal { opacity: 0; transform: translateY(60px); transition: all 1.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        section { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; padding: 100px 5%; overflow: hidden; }
-        h1, h2 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; letter-spacing: 2px; }
-
-        #hero { text-align: center; background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%); }
-        .hero-title { font-size: clamp(3rem, 10vw, 7.5rem); margin-bottom: 25px; color: var(--gold); line-height: 1.1; }
-        .hero-sub { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 12px; color: var(--soft-white); font-weight: 200; }
-
-        .content-wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1250px; gap: 60px; z-index: 1; }
-        .content-wrap.reverse { flex-direction: row-reverse; }
-
-        .image-container { 
-            position: relative; width: 55%; height: 650px; 
-            overflow: hidden; border: 1px solid var(--border);
-            padding: 10px; background: rgba(255,255,255,0.01);
-            transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        /* --- КУРСОР (скрыт на тачскринах через JS) --- */
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: var(--gold);
+            border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%);
+            display: none;
         }
-        .image-container img { width: 100%; height: 100%; object-fit: cover; transition: 2s; }
-        .image-container:hover { border-color: var(--gold); box-shadow: 0 0 30px var(--neon-gold); transform: scale(1.02); }
+        #cursor-trail {
+            position: fixed; width: 60px; height: 60px;
+            background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+            display: none; opacity: 0.4;
+        }
 
-        .text-side { width: 35%; text-align: left; }
-        .role-label { color: var(--gold); font-size: 0.7rem; letter-spacing: 7px; text-transform: uppercase; margin-bottom: 20px; display: block; }
-        .name-title { font-size: 4rem; margin-bottom: 30px; border-bottom: 1px solid var(--gold); display: inline-block; padding-bottom: 5px; color: #fff; }
-        .description { font-size: 1.15rem; color: var(--soft-white); font-weight: 200; line-height: 2; }
-
-        .bg-number { position: absolute; font-size: 28rem; font-family: 'Cormorant Garamond'; color: rgba(197, 160, 89, 0.03); z-index: 0; pointer-events: none; font-style: italic; }
-
-        /* СПЕЦИАЛЬНАЯ КНОПКА С СЮРПРИЗОМ */
-        #audio-container {
-            position: fixed; top: 40px; right: 40px; z-index: 2000;
-            width: 160px; height: 45px; overflow: hidden;
-            border-radius: 50px; border: 1px solid var(--border);
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(15px);
+        /* --- HERO --- */
+        #hero {
+            height: 100vh; height: 100svh; /* svh для мобильных браузеров */
             display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 0 20px;
+        }
+        .hero-title { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 10vw, 8rem); color: var(--gold); letter-spacing: -2px; }
+        .hero-sub { position: absolute; bottom: 40px; font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase; opacity: 0.4; width: 100%; }
+
+        /* --- СЕКЦИИ --- */
+        .immersive-sec { 
+            min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; 
+            padding: 80px 20px; overflow: hidden;
         }
 
-        #audio-trigger-ui {
-            display: flex; align-items: center; gap: 10px; pointer-events: none;
+        /* Галлерея-коллаж */
+        .gallery-explode {
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+            display: grid; grid-template-columns: repeat(20, 1fr); grid-template-rows: repeat(20, 1fr);
+            opacity: 0; transition: opacity 1s;
+        }
+        .is-active .gallery-explode { opacity: 1; }
+
+        .img-slot {
+            position: relative; overflow: hidden; border: 1px solid var(--neon-gold);
+            transform: scale(0) rotate(var(--r, 10deg)) translate(var(--x), var(--y));
+            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .is-active .img-slot { transform: scale(1) rotate(0) translate(0, 0); }
+        
+        .img-slot img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
+
+        /* Координаты для ПК (Дефолт) */
+        .img-slot:nth-child(1) { --x: -20vw; --y: -20vh; grid-area: 2 / 2 / 10 / 8; }
+        .img-slot:nth-child(2) { --x: 20vw; --y: -30vh; grid-area: 3 / 11 / 11 / 19; }
+        .img-slot:nth-child(3) { --x: -15vw; --y: 25vh; grid-area: 12 / 3 / 19 / 10; }
+        .img-slot:nth-child(4) { --x: 15vw; --y: 15vh; grid-area: 13 / 13 / 18 / 18; }
+
+        /* Текстовый блок */
+        .text-overlay {
+            position: relative; z-index: 10; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
+            padding: clamp(30px, 5vw, 60px); border: 1px solid var(--neon-gold);
+            width: 100%; max-width: 600px; border-radius: 4px;
+            opacity: 0; transform: translateY(40px);
+            transition: 1s 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .is-active.is-text-visible .text-overlay { opacity: 1; transform: translateY(0); }
+
+        .name-title { font-family: 'Cormorant Garamond'; font-size: clamp(2.2rem, 6vw, 4rem); margin-bottom: 20px; }
+        .description { font-weight: 200; color: var(--soft-white); font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; }
+
+        /* --- КНОПКА МУЗЫКИ --- */
+        #music-btn {
+            position: fixed; bottom: 30px; left: 30px; z-index: 1000;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--gold);
+            padding: 10px 18px; border-radius: 40px; cursor: pointer;
+            backdrop-filter: blur(10px); display: flex; align-items: center; gap: 10px;
+        }
+        #music-status { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+
+        /* --- АДАПТИВНОСТЬ (МОБИЛКИ) --- */
+        @media (max-width: 768px) {
+            .gallery-explode { 
+                grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; 
+                gap: 10px; padding: 10px;
+            }
+            .img-slot:nth-child(n) { grid-area: auto; --x: 0; --y: 30px; }
+            .immersive-sec { padding: 40px 15px; }
+            .text-overlay { margin-top: auto; }
+            #music-btn { bottom: 20px; left: 20px; scale: 0.9; }
         }
 
-        #audio-status { font-size: 0.65rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+        footer { padding: 60px 20px; text-align: center; border-top: 1px solid var(--neon-gold); opacity: 0.5; font-size: 0.7rem; letter-spacing: 10px; }
 
-        /* СКРЫТЫЙ НО АКТИВНЫЙ ПЛЕЕР ПОВЕРХ КНОПКИ */
-        #youtube-player {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0.01; /* Почти невидимый, но кликабельный */
-            cursor: pointer;
-        }
-
-        .vis-bar { width: 2px; height: 12px; background: var(--gold); transition: 0.3s; opacity: 0.5; }
-        .is-playing .vis-bar { animation: bar-pulse 0.7s infinite alternate; opacity: 1; }
-        .is-playing .vis-bar:nth-child(2) { animation-delay: 0.2s; }
-        @keyframes bar-pulse { 0% { height: 4px; } 100% { height: 18px; } }
-
-        footer { padding: 120px 0; text-align: center; border-top: 1px solid var(--border); background: #080808; }
-        .footer-logo { font-family: 'Cormorant Garamond'; font-size: 2.2rem; color: var(--gold); letter-spacing: 16px; font-style: italic; text-transform: uppercase; }
-
-        @media (max-width: 1000px) {
-            .content-wrap, .content-wrap.reverse { flex-direction: column; text-align: center; }
-            .image-container, .text-side { width: 100%; }
-            .image-container { height: 400px; }
-            .name-title { font-size: 3rem; }
-            #audio-container { top: 20px; right: 20px; scale: 0.8; }
-        }
     </style>
 </head>
 <body>
 
-    <div id="cursor-blur"></div>
+    <div id="cursor"></div>
+    <div id="cursor-trail"></div>
 
-    <div id="audio-container">
-        <div id="audio-trigger-ui">
-            <span id="audio-status">Sound: Off</span>
-            <div id="visualizer" style="display: flex; gap: 4px;">
-                <div class="vis-bar"></div>
-                <div class="vis-bar"></div>
-                <div class="vis-bar"></div>
-            </div>
-        </div>
-        <iframe id="youtube-player" 
-                src="https://www.youtube.com/embed/hN_q-_nGv4U?enablejsapi=1&autoplay=0&controls=0&loop=1" 
-                allow="autoplay">
-        </iframe>
+    <div id="music-btn" onclick="playMusic()">
+        <span id="music-status">Music: Off</span>
+        <div style="font-size: 10px;">♪</div>
     </div>
+    <audio id="bg-audio" loop><source src="https://dl.dropboxusercontent.com/s/e52x0v2y7i1y7w7/Einaudi_Experience_Cut.mp3" type="audio/mpeg"></audio>
 
     <section id="hero">
-        <div class="reveal">
-            <p class="hero-sub">The Family Heritage</p>
-            <h1 class="hero-title">Искусство Быть Семьей</h1>
-            <div style="width: 80px; height: 1px; background: var(--gold); margin: 30px auto; opacity: 0.4;"></div>
+        <div class="hero-wrap">
+            <h1 class="hero-title">S A R A P U L L O V E</h1>
+            <p style="letter-spacing: 8px; font-weight: 100; margin-top: 10px;">FAMILY LEGACY</p>
+        </div>
+        <div class="hero-sub">Scroll to begin</div>
+    </section>
+
+    <section class="immersive-sec">
+        <div class="gallery-explode">
+            <div class="img-slot"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+            <div class="img-slot"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+            <div class="img-slot"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+            <div class="img-slot"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+        </div>
+        <div class="text-overlay">
+            <span style="color:var(--gold); font-size: 0.6rem; letter-spacing: 5px;">01. FOUNDATION</span>
+            <h2 class="name-title">Мама</h2>
+            <p class="description">Душа нашего дома. Твое доброе сердце — это тихая гавань, где всегда тепло и спокойно. Ты научила нас любить мир и верить в лучшее.</p>
         </div>
     </section>
 
-    <section id="mama">
-        <span class="bg-number" style="right: 8%;">01</span>
-        <div class="content-wrap reveal">
-            <div class="image-container">
-                <img src="https://i.imgur.com/DtgvEMC.jpg" alt="Мама">
-            </div>
-            <div class="text-side">
-                <span class="role-label">Главная Опора</span>
-                <h2 class="name-title">Мама</h2>
-                <p class="description">Душа нашего дома. Твое доброе сердце — это тихая гавань, где всегда тепло и спокойно. Ты научила нас любить мир и верить в лучшее.</p>
-            </div>
+    <section class="immersive-sec">
+        <div class="gallery-explode">
+            <div class="img-slot"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
+            <div class="img-slot"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
+            <div class="img-slot"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
+            <div class="img-slot"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
+        </div>
+        <div class="text-overlay">
+            <span style="color:var(--gold); font-size: 0.6rem; letter-spacing: 5px;">02. INSPIRATION</span>
+            <h2 class="name-title">Геля</h2>
+            <p class="description">Грация и свет. Ты умеешь видеть красоту в деталях и наполнять пространство вокруг себя невероятной энергией.</p>
         </div>
     </section>
 
-    <section id="angelina">
-        <span class="bg-number" style="left: 8%;">02</span>
-        <div class="content-wrap reverse reveal">
-            <div class="image-container">
-                <img src="https://i.imgur.com/s4bocNt.jpg" alt="Геля">
-            </div>
-            <div class="text-side">
-                <span class="role-label">Вдохновение</span>
-                <h2 class="name-title">Геля</h2>
-                <p class="description">Грация и свет. Ты умеешь видеть красоту в деталях и наполнять пространство вокруг себя невероятной энергией.</p>
-            </div>
+    <section class="immersive-sec">
+        <div class="gallery-explode">
+            <div class="img-slot"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
+            <div class="img-slot"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
+            <div class="img-slot"><img src="https://i.imgur.com/ZlokF30.jpg" ></div>
+            <div class="img-slot"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
+        </div>
+        <div class="text-overlay">
+            <span style="color:var(--gold); font-size: 0.6rem; letter-spacing: 5px;">03. ENERGY</span>
+            <h2 class="name-title">Кристина</h2>
+            <p class="description">Яркое солнце нашей семьи. Твоя решительность и искренняя улыбка заставляют двигаться вперед, несмотря на любые преграды.</p>
         </div>
     </section>
 
-    <section id="kristina">
-        <span class="bg-number" style="right: 8%;">03</span>
-        <div class="content-wrap reveal">
-            <div class="image-container">
-                <img src="https://i.imgur.com/ZlokF30.jpg" alt="Кристина">
-            </div>
-            <div class="text-side">
-                <span class="role-label">Энергия Жизни</span>
-                <h2 class="name-title">Кристина</h2>
-                <p class="description">Яркое солнце нашей семьи. Твоя решительность и искренняя улыбка заставляют двигаться вперед, несмотря на любые преграды.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="reveal">
-            <div class="footer-logo">S A R A P U L L O V E</div>
-            <p style="font-size: 0.7rem; letter-spacing: 6px; color: #333; margin-top: 25px; text-transform: uppercase;">DESIGNED FOR THE LOVED ONES | 2026</p>
-        </div>
-    </footer>
+    <footer>S A R A P U L L O V E | 2026</footer>
 
     <script>
-        const blur = document.getElementById('cursor-blur');
-        document.addEventListener('mousemove', (e) => {
-            blur.style.opacity = '1'; blur.style.left = e.clientX + 'px'; blur.style.top = e.clientY + 'px';
-        });
+        // 1. ПРОВЕРКА НА ТАЧ (Отключаем курсор на телефонах)
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        const cursor = document.getElementById('cursor');
+        const trail = document.getElementById('cursor-trail');
 
-        function reveal() {
-            document.querySelectorAll(".reveal").forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active");
+        if (!isTouch) {
+            cursor.style.display = 'block';
+            trail.style.display = 'block';
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+                trail.style.left = e.clientX + 'px'; trail.style.top = e.clientY + 'px';
             });
         }
-        window.addEventListener("scroll", reveal);
-        reveal();
 
-        // Управление визуалом при клике
+        // 2. АНИМАЦИЯ СКРОЛЛА
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-active');
+                    setTimeout(() => entry.target.classList.add('is-text-visible'), 800);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.immersive-sec').forEach(s => observer.observe(s));
+
+        // 3. МУЗЫКА
+        const audio = document.getElementById('bg-audio');
+        const status = document.getElementById('music-status');
         let playing = false;
-        const container = document.getElementById('audio-container');
-        const statusText = document.getElementById('audio-status');
 
-        container.addEventListener('click', () => {
-            if (!playing) {
-                statusText.innerText = "Sound: On";
-                container.classList.add('is-playing');
-            } else {
-                statusText.innerText = "Sound: Off";
-                container.classList.remove('is-playing');
-            }
-            playing = !playing;
-        });
+        function playMusic() {
+            if(!playing) {
+                audio.play().then(() => { status.innerText = "Music: On"; playing = true; })
+                .catch(() => { audio.muted = true; audio.play(); status.innerText = "Tap again"; });
+            } else { audio.pause(); status.innerText = "Music: Off"; playing = false; }
+            if (audio.muted) audio.muted = false;
+        }
     </script>
 </body>
 </html>

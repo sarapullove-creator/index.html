@@ -54,34 +54,42 @@
 
         .bg-number { position: absolute; font-size: 28rem; font-family: 'Cormorant Garamond'; color: rgba(197, 160, 89, 0.03); z-index: 0; pointer-events: none; font-style: italic; }
 
-        /* Кнопка */
-        #audio-trigger {
+        /* СПЕЦИАЛЬНАЯ КНОПКА С СЮРПРИЗОМ */
+        #audio-container {
             position: fixed; top: 40px; right: 40px; z-index: 2000;
-            cursor: pointer; display: flex; align-items: center; gap: 14px;
-            padding: 12px 20px; background: rgba(0,0,0,0.6); border-radius: 50px;
-            border: 1px solid var(--border); backdrop-filter: blur(15px); transition: 0.5s;
+            width: 160px; height: 45px; overflow: hidden;
+            border-radius: 50px; border: 1px solid var(--border);
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(15px);
+            display: flex; align-items: center; justify-content: center;
         }
-        #audio-trigger:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
+
+        #audio-trigger-ui {
+            display: flex; align-items: center; gap: 10px; pointer-events: none;
+        }
+
         #audio-status { font-size: 0.65rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
-        
+
+        /* СКРЫТЫЙ НО АКТИВНЫЙ ПЛЕЕР ПОВЕРХ КНОПКИ */
+        #youtube-player {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.01; /* Почти невидимый, но кликабельный */
+            cursor: pointer;
+        }
+
         .vis-bar { width: 2px; height: 12px; background: var(--gold); transition: 0.3s; opacity: 0.5; }
-        .playing .vis-bar { animation: bar-pulse 0.7s infinite alternate; opacity: 1; }
-        .playing .vis-bar:nth-child(2) { animation-delay: 0.2s; }
-        .playing .vis-bar:nth-child(3) { animation-delay: 0.4s; }
+        .is-playing .vis-bar { animation: bar-pulse 0.7s infinite alternate; opacity: 1; }
+        .is-playing .vis-bar:nth-child(2) { animation-delay: 0.2s; }
         @keyframes bar-pulse { 0% { height: 4px; } 100% { height: 18px; } }
 
         footer { padding: 120px 0; text-align: center; border-top: 1px solid var(--border); background: #080808; }
         .footer-logo { font-family: 'Cormorant Garamond'; font-size: 2.2rem; color: var(--gold); letter-spacing: 16px; font-style: italic; text-transform: uppercase; }
 
-        /* Скрытый плеер */
-        #youtube-player { position: absolute; width: 0; height: 0; border: 0; pointer-events: none; }
-
         @media (max-width: 1000px) {
             .content-wrap, .content-wrap.reverse { flex-direction: column; text-align: center; }
             .image-container, .text-side { width: 100%; }
-            .image-container { height: 450px; }
+            .image-container { height: 400px; }
             .name-title { font-size: 3rem; }
-            #audio-trigger { top: 20px; right: 20px; scale: 0.8; }
+            #audio-container { top: 20px; right: 20px; scale: 0.8; }
         }
     </style>
 </head>
@@ -89,17 +97,19 @@
 
     <div id="cursor-blur"></div>
 
-    <div id="audio-trigger" onclick="toggleYT()">
-        <span id="audio-status">Music: Off</span>
-        <div id="visualizer" style="display: flex; gap: 4px;">
-            <div class="vis-bar"></div>
-            <div class="vis-bar :nth-child(2)"></div>
-            <div class="vis-bar :nth-child(3)"></div>
+    <div id="audio-container">
+        <div id="audio-trigger-ui">
+            <span id="audio-status">Sound: Off</span>
+            <div id="visualizer" style="display: flex; gap: 4px;">
+                <div class="vis-bar"></div>
+                <div class="vis-bar"></div>
+                <div class="vis-bar"></div>
+            </div>
         </div>
-    </div>
-    
-    <div id="player-container">
-        <iframe id="youtube-player" src="https://www.youtube.com/embed/hN_q-_nGv4U?enablejsapi=1&loop=1&playlist=hN_q-_nGv4U" allow="autoplay"></iframe>
+        <iframe id="youtube-player" 
+                src="https://www.youtube.com/embed/hN_q-_nGv4U?enablejsapi=1&autoplay=0&controls=0&loop=1" 
+                allow="autoplay">
+        </iframe>
     </div>
 
     <section id="hero">
@@ -161,11 +171,9 @@
 
     <script>
         const blur = document.getElementById('cursor-blur');
-        if (window.matchMedia("(pointer: fine)").matches) {
-            document.addEventListener('mousemove', (e) => {
-                blur.style.opacity = '1'; blur.style.left = e.clientX + 'px'; blur.style.top = e.clientY + 'px';
-            });
-        }
+        document.addEventListener('mousemove', (e) => {
+            blur.style.opacity = '1'; blur.style.left = e.clientX + 'px'; blur.style.top = e.clientY + 'px';
+        });
 
         function reveal() {
             document.querySelectorAll(".reveal").forEach(el => {
@@ -175,26 +183,21 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // Логика YouTube
-        let isPlaying = false;
-        const player = document.getElementById('youtube-player');
-        const trigger = document.getElementById('audio-trigger');
-        const status = document.getElementById('audio-status');
+        // Управление визуалом при клике
+        let playing = false;
+        const container = document.getElementById('audio-container');
+        const statusText = document.getElementById('audio-status');
 
-        function toggleYT() {
-            if (!isPlaying) {
-                // Посылаем команду 'play' через API YouTube
-                player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                status.innerText = "Music: On";
-                trigger.classList.add('playing');
-                isPlaying = true;
+        container.addEventListener('click', () => {
+            if (!playing) {
+                statusText.innerText = "Sound: On";
+                container.classList.add('is-playing');
             } else {
-                player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                status.innerText = "Music: Off";
-                trigger.classList.remove('playing');
-                isPlaying = false;
+                statusText.innerText = "Sound: Off";
+                container.classList.remove('is-playing');
             }
-        }
+            playing = !playing;
+        });
     </script>
 </body>
 </html>

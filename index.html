@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>НАШЕ ДОСТОЯНИЕ | СЕМЬЯ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@1,400;1,600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafafa;
+            --text: #222;
+            --accent: #d4af37; /* Золотой */
+            --sub-accent: #fdf2f2; /* Розоватый фон */
+            --light-text: #666;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 300; 
+            scroll-behavior: smooth;
+        }
+
+        /* Анимация плавного появления */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: 1s all ease-out; }
+        .fade-in.active { opacity: 1; transform: translateY(0); }
+
+        h1, h2, h3 { font-family: 'Cormorant Infant', serif; font-style: italic; font-weight: 600; }
+        
+        section { min-height: 100vh; padding: 100px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .container { max-width: 1000px; width: 100%; text-align: center; }
+
+        /* HERO */
+        #hero { background-color: var(--sub-accent); border-bottom: 1px solid #eee; }
+        #hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); color: var(--accent); margin-bottom: 20px; }
+        #hero p { font-size: 1.2rem; color: var(--light-text); max-width: 600px; margin: 0 auto; }
+
+        /* УНИВЕРСАЛЬНАЯ КАРТОЧКА (для сестер и мамы) */
+        .person-card {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px; align-items: center; margin-bottom: 120px; text-align: left;
+        }
+        .person-img-box {
+            position: relative;
+            box-shadow: 20px 20px 0 var(--accent);
+            transition: 0.5s;
+        }
+        .person-img-box:hover { transform: translate(-5px, -5px); box-shadow: 25px 25px 0 var(--accent); }
+        .person-card img { width: 100%; height: auto; display: block; filter: sepia(20%); }
+        
+        .person-info h3 { font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
+        .person-info p { color: var(--light-text); line-height: 1.8; margin-bottom: 15px; }
+        
+        .quote { font-style: italic; color: #888; border-left: 2px solid var(--accent); padding-left: 15px; margin-top: 20px; }
+
+        footer { background: #111; color: #fff; padding: 40px; text-align: center; font-size: 0.8rem; letter-spacing: 1px; }
+
+    </style>
+</head>
+<body>
+
+    <section id="hero">
+        <div class="container">
+            <h1 class="fade-in">Свет Нашей Жизни</h1>
+            <p class="fade-in">Сайт, посвященный самым дорогим и любимым: маме, Ангелине и Кристине.</p>
+        </div>
+    </section>
+
+    <section id="mama" class="fade-in" style="background: #fff;">
+        <div class="container">
+            <h2>НАША ГЛАВНАЯ ОПОРА</h2>
+            <div class="person-card" style="margin-top: 80px;">
+                <div class="person-img-box">
+                    <img src="https://images.unsplash.com/photo-1574068468668-107a61f448b2?auto=format&fit=crop&w=800&q=80" alt="Наша Мама">
+                </div>
+                <div class="person-info">
+                    <h3>МАМА</h3>
+                    <p>Сердце нашей семьи. Человек, чья любовь безгранична, а мудрость помогает нам каждый день. Спасибо тебе за тепло, заботу и за то, что ты есть.</p>
+                    <p class="quote">"Мама — это синоним слова Любовь."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sisters" class="fade-in">
+        <div class="container">
+            <h2>МОИ ЛЮБИМЫЕ СЁСТРЫ</h2>
+            
+            <div class="person-card" style="margin-top: 80px;">
+                <div class="person-img-box">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80" alt="Ангелина">
+                </div>
+                <div class="person-info">
+                    <h3>АНГЕЛИНА</h3>
+                    <p>Творческая, яркая и невероятно добрая. Ты приносишь свет и радость в нашу жизнь. Горжусь тем, что ты моя сестра.</p>
+                </div>
+            </div>
+
+            <div class="person-card">
+                <div class="person-info" style="text-align: right;">
+                    <h3>КРИСТИНА</h3>
+                    <p>Энергичная, целеустремленная и всегда готовая поддержать. Твоя улыбка способна разогнать любые тучи. С тобой всегда весело и тепло.</p>
+                </div>
+                <div class="person-img-box">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80" alt="Кристина">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2077. Сайт создан с любовью для моей семьи.</p>
+    </footer>
+
+    <script>
+        // Анимация появления при скролле
+        function reveal() {
+            var reveals = document.querySelectorAll(".fade-in");
+            reveals.forEach(r => {
+                var windowHeight = window.innerHeight;
+                var elementTop = r.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 50) { r.classList.add("active"); }
+            });
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Запуск один раз при загрузке
+    </script>
+
+</body>
+</html>

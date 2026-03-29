@@ -16,11 +16,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: var(--bg); color: var(--text); 
-            font-family: 'Montserrat', sans-serif; overflow-x: hidden;
-            line-height: 1.6; scroll-behavior: smooth;
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; scroll-behavior: smooth; }
 
         #cursor-blur {
             position: fixed; width: 450px; height: 450px;
@@ -37,7 +33,7 @@
 
         #hero { text-align: center; background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%); }
         .hero-title { font-size: clamp(3rem, 10vw, 7.5rem); margin-bottom: 25px; color: var(--gold); line-height: 1.1; }
-        .hero-sub { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 12px; color: var(--soft-white); font-weight: 200; opacity: 0.8; }
+        .hero-sub { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 12px; color: var(--soft-white); font-weight: 200; }
 
         .content-wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1250px; gap: 60px; z-index: 1; }
         .content-wrap.reverse { flex-direction: row-reverse; }
@@ -49,11 +45,7 @@
             transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .image-container img { width: 100%; height: 100%; object-fit: cover; transition: 2s; }
-        .image-container:hover { 
-            border-color: var(--gold); 
-            box-shadow: 0 0 30px var(--neon-gold); 
-            transform: scale(1.02);
-        }
+        .image-container:hover { border-color: var(--gold); box-shadow: 0 0 30px var(--neon-gold); transform: scale(1.02); }
 
         .text-side { width: 35%; text-align: left; }
         .role-label { color: var(--gold); font-size: 0.7rem; letter-spacing: 7px; text-transform: uppercase; margin-bottom: 20px; display: block; }
@@ -62,12 +54,12 @@
 
         .bg-number { position: absolute; font-size: 28rem; font-family: 'Cormorant Garamond'; color: rgba(197, 160, 89, 0.03); z-index: 0; pointer-events: none; font-style: italic; }
 
+        /* Кнопка */
         #audio-trigger {
             position: fixed; top: 40px; right: 40px; z-index: 2000;
             cursor: pointer; display: flex; align-items: center; gap: 14px;
-            padding: 12px 20px; background: rgba(0,0,0,0.5); border-radius: 50px;
-            border: 1px solid var(--border); backdrop-filter: blur(15px);
-            transition: 0.5s;
+            padding: 12px 20px; background: rgba(0,0,0,0.6); border-radius: 50px;
+            border: 1px solid var(--border); backdrop-filter: blur(15px); transition: 0.5s;
         }
         #audio-trigger:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
         #audio-status { font-size: 0.65rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
@@ -80,6 +72,9 @@
 
         footer { padding: 120px 0; text-align: center; border-top: 1px solid var(--border); background: #080808; }
         .footer-logo { font-family: 'Cormorant Garamond'; font-size: 2.2rem; color: var(--gold); letter-spacing: 16px; font-style: italic; text-transform: uppercase; }
+
+        /* Скрытый плеер */
+        #youtube-player { position: absolute; width: 0; height: 0; border: 0; pointer-events: none; }
 
         @media (max-width: 1000px) {
             .content-wrap, .content-wrap.reverse { flex-direction: column; text-align: center; }
@@ -94,18 +89,18 @@
 
     <div id="cursor-blur"></div>
 
-    <div id="audio-trigger" onclick="toggleAudio()">
+    <div id="audio-trigger" onclick="toggleYT()">
         <span id="audio-status">Music: Off</span>
         <div id="visualizer" style="display: flex; gap: 4px;">
             <div class="vis-bar"></div>
-            <div class="vis-bar"></div>
-            <div class="vis-bar"></div>
+            <div class="vis-bar :nth-child(2)"></div>
+            <div class="vis-bar :nth-child(3)"></div>
         </div>
     </div>
     
-    <audio id="main-theme" loop preload="auto">
-        <source src="https://cdn.pixabay.com/audio/2022/10/06/audio_f8304910f5.mp3" type="audio/mpeg">
-    </audio>
+    <div id="player-container">
+        <iframe id="youtube-player" src="https://www.youtube.com/embed/hN_q-_nGv4U?enablejsapi=1&loop=1&playlist=hN_q-_nGv4U" allow="autoplay"></iframe>
+    </div>
 
     <section id="hero">
         <div class="reveal">
@@ -168,39 +163,36 @@
         const blur = document.getElementById('cursor-blur');
         if (window.matchMedia("(pointer: fine)").matches) {
             document.addEventListener('mousemove', (e) => {
-                blur.style.opacity = '1';
-                blur.style.left = e.clientX + 'px';
-                blur.style.top = e.clientY + 'px';
+                blur.style.opacity = '1'; blur.style.left = e.clientX + 'px'; blur.style.top = e.clientY + 'px';
             });
         }
 
         function reveal() {
-            const reveals = document.querySelectorAll(".reveal");
-            reveals.forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 100) { el.classList.add("active"); }
+            document.querySelectorAll(".reveal").forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active");
             });
         }
         window.addEventListener("scroll", reveal);
         reveal();
 
-        const track = document.getElementById('main-theme');
+        // Логика YouTube
+        let isPlaying = false;
+        const player = document.getElementById('youtube-player');
         const trigger = document.getElementById('audio-trigger');
         const status = document.getElementById('audio-status');
-        let playing = false;
 
-        function toggleAudio() {
-            if (!playing) {
-                track.load(); // Принудительно подгружаем файл
-                track.play().then(() => {
-                    status.innerText = "Music: On";
-                    trigger.classList.add('playing');
-                    playing = true;
-                }).catch(e => alert("Нажми еще раз, музыка подгружается!"));
+        function toggleYT() {
+            if (!isPlaying) {
+                // Посылаем команду 'play' через API YouTube
+                player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                status.innerText = "Music: On";
+                trigger.classList.add('playing');
+                isPlaying = true;
             } else {
-                track.pause();
+                player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
                 status.innerText = "Music: Off";
                 trigger.classList.remove('playing');
-                playing = false;
+                isPlaying = false;
             }
         }
     </script>

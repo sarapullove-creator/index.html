@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>SARAPULLOVE | GALACTIC LEGACY 2.1</title>
+    <title>SARAPULLOVE | GALACTIC LEGACY 2.2</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,600&family=Montserrat:wght@100;300;600;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -34,23 +34,23 @@
             padding: 20px 60px; font-family: 'Cormorant Garamond'; font-size: 2rem;
             background: transparent; border: 1px solid var(--gold-rose); color: var(--gold-rose);
             border-radius: 50px; cursor: pointer; text-transform: uppercase; letter-spacing: 5px;
-            transition: 0.5s; position: relative;
+            transition: 0.5s;
         }
         .portal-btn:hover { background: var(--gold-rose); color: #000; box-shadow: 0 0 50px rgba(247, 215, 148, 0.6); }
 
         /* --- 2. ЖИВОЙ ФОН --- */
-        #bg-canvas, #candy-canvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; transition: filter 0.5s; }
+        #bg-canvas, #candy-canvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; transition: filter 0.8s; }
         #bg-canvas { opacity: 0.3; }
 
         /* --- 3. КУРСОР: ЧУПА-ЧУПС --- */
         #cursor {
-            position: fixed; pointer-events: none; z-index: 10002;
+            position: fixed; pointer-events: none; z-index: 20000;
             transform: translate(-50%, -50%); font-size: 32px;
             display: flex; align-items: center; justify-content: center;
         }
         #cursor-trail {
             position: fixed; width: 40px; height: 40px; border: 1px solid var(--gold-rose);
-            border-radius: 50%; pointer-events: none; z-index: 10001;
+            border-radius: 50%; pointer-events: none; z-index: 19999;
             transform: translate(-50%, -50%); transition: 0.1s cubic-bezier(0.19, 1, 0.22, 1);
             box-shadow: 0 0 15px var(--gold-rose), inset 0 0 15px var(--gold-rose); opacity: 0.5;
         }
@@ -62,7 +62,7 @@
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             padding: 10px 40px; border-radius: 100px;
             display: flex; gap: 20px; border: 1px solid var(--border);
-            transition: transform 1s 1s cubic-bezier(0.19, 1, 0.22, 1), filter 0.5s;
+            transition: transform 1s 1s, filter 0.5s;
         }
         nav.show { transform: translateX(-50%) translateY(0); }
         nav button {
@@ -73,15 +73,15 @@
         nav button:hover { color: #fff; }
 
         /* --- 5. СТРАНИЦЫ --- */
-        .page { display: none; padding-top: 140px; min-height: 100vh; perspective: 2000px; transition: filter 0.5s; }
+        .page { display: none; padding-top: 140px; min-height: 100vh; transition: filter 0.5s; }
         .page.active { display: block; }
 
         .hologram-sec {
-            opacity: 0; transform: translateY(100px) rotateX(15deg) scale(0.8); filter: blur(10px);
-            transition: opacity 1.5s, transform 1.5s cubic-bezier(0.19, 1, 0.22, 1), filter 1.5s;
+            opacity: 0; transform: translateY(100px); filter: blur(10px);
+            transition: opacity 1.2s, transform 1.2s cubic-bezier(0.19, 1, 0.22, 1), filter 1.2s;
             margin-bottom: 100px;
         }
-        .hologram-sec.visible { opacity: 1; transform: translateY(0) rotateX(0) scale(1); filter: blur(0); }
+        .hologram-sec.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
         /* --- КАРТОЧКИ ГЛАВНОЙ --- */
         .opal-card {
@@ -93,29 +93,38 @@
         .text-side h2 { font-family: 'Cormorant Garamond'; font-size: 5rem; color: #fff; margin-bottom: 15px; font-weight: 100; font-style: italic; }
         .joke-box { font-weight: 100; color: rgba(255,255,255,0.6); border-left: 2px solid var(--cyan-neon); padding-left: 25px; font-size: 1.1rem; line-height: 1.8; }
 
-        /* --- АЛЬБОМ И ЗУМ --- */
+        /* --- АЛЬБОМ И ЗУМ (ИСПРАВЛЕННЫЙ) --- */
         .album-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 30px; padding: 0 5% 100px;
         }
         .grid-item {
             background: var(--glass); border-radius: 20px; border: 1px solid var(--border);
-            padding: 10px; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); position: relative;
+            padding: 10px; transition: 0.4s; position: relative;
         }
-        .grid-item img { width: 100%; border-radius: 15px; filter: saturate(80%); transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); cursor: pointer; }
+        .grid-item img { 
+            width: 100%; border-radius: 15px; filter: saturate(80%); 
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), filter 0.3s; 
+            cursor: pointer; z-index: 1; position: relative;
+        }
         
-        /* КЛАСС ДЛЯ УВЕЛИЧЕНИЯ */
-        .grid-item.expanded { z-index: 9000; }
+        /* Состояние расширенного фото: убираем блюр именно с него */
         .grid-item.expanded img {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.5);
-            width: auto; max-width: 80vw; max-height: 80vh; z-index: 10000;
-            box-shadow: 0 0 100px rgba(0,0,0,0.8), 0 0 30px var(--gold-rose);
-            border: 2px solid var(--gold-rose); filter: saturate(110%);
+            position: fixed; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%) scale(1);
+            width: auto; max-width: 85vw; max-height: 85vh; 
+            z-index: 15000 !important; /* Выше всего */
+            box-shadow: 0 0 100px rgba(0,0,0,0.9);
+            border: 1px solid var(--gold-rose);
+            filter: saturate(100%) blur(0) !important; /* Гарантируем отсутствие блюра */
         }
 
-        /* Эффект размытия фона при зуме */
-        body.focused .page, body.focused nav, body.focused #bg-canvas, body.focused #candy-canvas {
-            filter: blur(15px) brightness(0.5);
+        /* Блюрим всё КРОМЕ расширенного фото */
+        body.focused .hologram-sec:not(.has-expanded), 
+        body.focused nav, 
+        body.focused #bg-canvas, 
+        body.focused #candy-canvas {
+            filter: blur(20px) brightness(0.4);
         }
 
         #music-btn {
@@ -128,7 +137,7 @@
         @media (max-width: 900px) {
             .opal-card { flex-direction: column; text-align: center; padding: 30px; }
             .photo-frame { width: 100%; }
-            .grid-item.expanded img { max-width: 95vw; transform: translate(-50%, -50%) scale(1); }
+            .grid-item.expanded img { max-width: 95vw; }
         }
     </style>
 </head>
@@ -163,7 +172,7 @@
                 <div class="photo-frame"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
                 <div class="text-side">
                     <h2>Мама</h2>
-                    <div class="joke-box">«Мам, я есть хочу!» — «Сходи на кухню, там на столе лежит яблоко». «Оно не вкусное...» — «Значит, ты не хочешь есть!» 🍎</div>
+                    <div class="joke-box">«Мам, я есть хочу!» — «Сходи на кухню...» 🍎</div>
                 </div>
             </div>
         </section>
@@ -173,7 +182,7 @@
                 <div class="photo-frame"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
                 <div class="text-side" style="text-align: right;">
                     <h2>Геля</h2>
-                    <div class="joke-box" style="border-left:none; border-right:2px solid var(--pink-neon); padding-right:25px;">— Геля, ты почему вчера в школе отсутствовала? — А я подарок школе делала! — Какой? — Отдыхала от неё! 😂</div>
+                    <div class="joke-box" style="border-left:none; border-right:2px solid var(--pink-neon); padding-right:25px;">— Геля, отдыхала от школы! 😂</div>
                 </div>
             </div>
         </section>
@@ -183,7 +192,7 @@
                 <div class="photo-frame"><img src="https://i.imgur.com/EJ3ifaJ.jpg"></div>
                 <div class="text-side">
                     <h2>Кристина</h2>
-                    <div class="joke-box" style="border-color: var(--gold-rose);">— Кристина, сколько будет дважды два? — Пять! — Почему пять?! — А я так чувствую, я творческая личность! ✨</div>
+                    <div class="joke-box" style="border-color: var(--gold-rose);">— Кристина, я творческая личность! ✨</div>
                 </div>
             </div>
         </section>
@@ -201,29 +210,35 @@
     </div>
 
     <script>
-        // --- ЗУМ ФОТОГРАФИЙ ---
         function expandImg(el) {
             const body = document.getElementById('main-body');
+            const sec = el.closest('.hologram-sec');
+            
             if (el.classList.contains('expanded')) {
                 el.classList.remove('expanded');
+                sec.classList.remove('has-expanded');
                 body.classList.remove('focused');
             } else {
-                // Закрыть другие, если открыты
-                document.querySelectorAll('.grid-item').forEach(i => i.classList.remove('expanded'));
+                document.querySelectorAll('.grid-item').forEach(i => {
+                    i.classList.remove('expanded');
+                    i.closest('.hologram-sec').classList.remove('has-expanded');
+                });
                 el.classList.add('expanded');
+                sec.classList.add('has-expanded');
                 body.classList.add('focused');
             }
         }
 
-        // Закрытие при клике мимо (на заблюренный фон)
         document.addEventListener('click', (e) => {
             if (e.target.tagName !== 'IMG' && document.querySelector('.expanded')) {
-                document.querySelectorAll('.grid-item').forEach(i => i.classList.remove('expanded'));
+                document.querySelectorAll('.grid-item').forEach(i => {
+                    i.classList.remove('expanded');
+                    i.closest('.hologram-sec').classList.remove('has-expanded');
+                });
                 document.getElementById('main-body').classList.remove('focused');
             }
         }, true);
 
-        // --- КУРСОР ---
         const mouse = { x: 0, y: 0 };
         const cursor = document.getElementById('cursor');
         const trail = document.getElementById('cursor-trail');
@@ -233,7 +248,6 @@
             trail.style.left = mouse.x + 'px'; trail.style.top = mouse.y + 'px';
         });
 
-        // --- ФОН: СЕТКА ---
         const bgCanvas = document.getElementById('bg-canvas');
         const bgCtx = bgCanvas.getContext('2d');
         function resize() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
@@ -251,7 +265,6 @@
         }
         drawBg();
 
-        // --- КОНФЕТЫ ---
         const candyCanvas = document.getElementById('candy-canvas');
         const candyCtx = candyCanvas.getContext('2d');
         let candies = [];
@@ -268,7 +281,6 @@
         function animC() { candyCtx.clearRect(0,0,candyCanvas.width, candyCanvas.height); candies.forEach(c => {c.update(); c.draw();}); requestAnimationFrame(animC); }
         animC();
 
-        // --- ОБЩЕЕ ---
         const obs = new IntersectionObserver((es) => { es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
         function refresh() { document.querySelectorAll('.hologram-sec').forEach(h => obs.observe(h)); }
         function openPortal() { document.getElementById('splash').classList.add('hide'); document.getElementById('navbar').classList.add('show'); setTimeout(refresh, 1000); document.getElementById('track').play(); }

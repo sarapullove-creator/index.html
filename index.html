@@ -3,215 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>S A R A P U L L O V E | LEGACY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,600&family=Montserrat:wght@100;300;400;600&display=swap" rel="stylesheet">
+    <title>SARAPULLOVE | COLORS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #c5a059;
-            --neon-gold: rgba(197, 160, 89, 0.3);
-            --bg: #030303;
-            --text: #ffffff;
-            --soft-white: rgba(255, 255, 255, 0.6);
+            --c1: #ff0080; --c2: #7928ca; --c3: #ff4d4d; --c4: #f9cb28; --c5: #00dfd8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            background: var(--bg); color: var(--text); 
             font-family: 'Montserrat', sans-serif; overflow-x: hidden;
-            line-height: 1.4; scroll-behavior: smooth;
-            background-attachment: fixed;
+            background: #fff; color: #000;
         }
 
-        /* --- КУРСОР (скрыт на тачскринах через JS) --- */
-        #cursor {
-            position: fixed; width: 10px; height: 10px; background: var(--gold);
-            border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%);
-            display: none;
+        /* --- ЭКРАН ЗАПУСКА --- */
+        #welcome {
+            position: fixed; inset: 0; z-index: 10000;
+            background: linear-gradient(45deg, var(--c1), var(--c2), var(--c5));
+            background-size: 400% 400%; animation: gradientBG 10s ease infinite;
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
         }
-        #cursor-trail {
-            position: fixed; width: 60px; height: 60px;
-            background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
-            display: none; opacity: 0.4;
+        .start-btn {
+            padding: 30px 60px; font-size: 2rem; font-weight: 900; color: #fff;
+            background: rgba(255,255,255,0.2); border: 4px solid #fff;
+            border-radius: 100px; cursor: pointer; backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); transition: 0.3s;
+        }
+        .start-btn:hover { transform: scale(1.1); background: #fff; color: var(--c1); }
+
+        /* --- ЖИВОЙ ФОН --- */
+        .bg-wrapper {
+            position: fixed; inset: 0; z-index: -1;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+
+        /* Летающие пузыри */
+        .bubble {
+            position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px); z-index: 0; animation: float 20s infinite linear;
+        }
+        @keyframes float { 
+            0% { transform: translateY(100vh) scale(1); } 
+            100% { transform: translateY(-100vh) scale(1.5); } 
         }
 
-        /* --- HERO --- */
-        #hero {
-            height: 100vh; height: 100svh; /* svh для мобильных браузеров */
+        /* --- КОНТЕНТ --- */
+        section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 50px 20px; position: relative; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 40px; padding: 50px; width: 100%; max-width: 1100px;
+            display: flex; align-items: center; gap: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            transform: translateY(50px); opacity: 0; transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .active .glass-card { transform: translateY(0); opacity: 1; }
+
+        .photo-side { width: 50%; position: relative; }
+        .photo-side img { 
+            width: 100%; border-radius: 30px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transition: 0.5s; border: 10px solid #fff;
+        }
+        .photo-side:hover img { transform: rotate(-3deg) scale(1.05); }
+
+        .text-side { width: 50%; }
+        .name { 
+            font-size: clamp(3rem, 8vw, 6rem); color: #fff; 
+            text-shadow: 4px 4px 0px var(--c1); margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif; text-transform: uppercase;
+        }
+        .desc { 
+            font-size: 1.3rem; line-height: 1.6; color: #fff; 
+            background: rgba(0,0,0,0.1); padding: 20px; border-radius: 20px;
+        }
+
+        /* Кнопка музыки */
+        #music-control {
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            width: 60px; height: 60px; background: #fff; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 0 20px;
-        }
-        .hero-title { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 10vw, 8rem); color: var(--gold); letter-spacing: -2px; }
-        .hero-sub { position: absolute; bottom: 40px; font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase; opacity: 0.4; width: 100%; }
-
-        /* --- СЕКЦИИ --- */
-        .immersive-sec { 
-            min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; 
-            padding: 80px 20px; overflow: hidden;
+            font-size: 24px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        /* Галлерея-коллаж */
-        .gallery-explode {
-            position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-            display: grid; grid-template-columns: repeat(20, 1fr); grid-template-rows: repeat(20, 1fr);
-            opacity: 0; transition: opacity 1s;
+        @media (max-width: 900px) {
+            .glass-card { flex-direction: column; padding: 20px; text-align: center; }
+            .photo-side, .text-side { width: 100%; }
+            .name { font-size: 3rem; }
         }
-        .is-active .gallery-explode { opacity: 1; }
-
-        .img-slot {
-            position: relative; overflow: hidden; border: 1px solid var(--neon-gold);
-            transform: scale(0) rotate(var(--r, 10deg)) translate(var(--x), var(--y));
-            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .is-active .img-slot { transform: scale(1) rotate(0) translate(0, 0); }
-        
-        .img-slot img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
-
-        /* Координаты для ПК (Дефолт) */
-        .img-slot:nth-child(1) { --x: -20vw; --y: -20vh; grid-area: 2 / 2 / 10 / 8; }
-        .img-slot:nth-child(2) { --x: 20vw; --y: -30vh; grid-area: 3 / 11 / 11 / 19; }
-        .img-slot:nth-child(3) { --x: -15vw; --y: 25vh; grid-area: 12 / 3 / 19 / 10; }
-        .img-slot:nth-child(4) { --x: 15vw; --y: 15vh; grid-area: 13 / 13 / 18 / 18; }
-
-        /* Текстовый блок */
-        .text-overlay {
-            position: relative; z-index: 10; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
-            padding: clamp(30px, 5vw, 60px); border: 1px solid var(--neon-gold);
-            width: 100%; max-width: 600px; border-radius: 4px;
-            opacity: 0; transform: translateY(40px);
-            transition: 1s 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .is-active.is-text-visible .text-overlay { opacity: 1; transform: translateY(0); }
-
-        .name-title { font-family: 'Cormorant Garamond'; font-size: clamp(2.2rem, 6vw, 4rem); margin-bottom: 20px; }
-        .description { font-weight: 200; color: var(--soft-white); font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; }
-
-        /* --- КНОПКА МУЗЫКИ --- */
-        #music-btn {
-            position: fixed; bottom: 30px; left: 30px; z-index: 1000;
-            background: rgba(255,255,255,0.05); border: 1px solid var(--gold);
-            padding: 10px 18px; border-radius: 40px; cursor: pointer;
-            backdrop-filter: blur(10px); display: flex; align-items: center; gap: 10px;
-        }
-        #music-status { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
-
-        /* --- АДАПТИВНОСТЬ (МОБИЛКИ) --- */
-        @media (max-width: 768px) {
-            .gallery-explode { 
-                grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; 
-                gap: 10px; padding: 10px;
-            }
-            .img-slot:nth-child(n) { grid-area: auto; --x: 0; --y: 30px; }
-            .immersive-sec { padding: 40px 15px; }
-            .text-overlay { margin-top: auto; }
-            #music-btn { bottom: 20px; left: 20px; scale: 0.9; }
-        }
-
-        footer { padding: 60px 20px; text-align: center; border-top: 1px solid var(--neon-gold); opacity: 0.5; font-size: 0.7rem; letter-spacing: 10px; }
-
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
-    <div id="cursor-trail"></div>
-
-    <div id="music-btn" onclick="playMusic()">
-        <span id="music-status">Music: Off</span>
-        <div style="font-size: 10px;">♪</div>
+    <div id="welcome">
+        <h1 style="color:#fff; font-size: 4rem; margin-bottom: 30px; text-shadow: 0 10px 20px rgba(0,0,0,0.2);">SARAPULLOVE</h1>
+        <button class="start-btn" onclick="init()">CLICK TO START</button>
     </div>
-    <audio id="bg-audio" loop><source src="https://dl.dropboxusercontent.com/s/e52x0v2y7i1y7w7/Einaudi_Experience_Cut.mp3" type="audio/mpeg"></audio>
+
+    <div class="bg-wrapper" id="bg"></div>
+    <div id="music-control" onclick="toggleMusic()">🎵</div>
+    <audio id="myaudio" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
 
     <section id="hero">
-        <div class="hero-wrap">
-            <h1 class="hero-title">S A R A P U L L O V E</h1>
-            <p style="letter-spacing: 8px; font-weight: 100; margin-top: 10px;">FAMILY LEGACY</p>
-        </div>
-        <div class="hero-sub">Scroll to begin</div>
+        <h1 style="font-size: 10vw; color: #fff; text-shadow: 10px 10px 0 var(--c2);">FAMILY</h1>
     </section>
 
-    <section class="immersive-sec">
-        <div class="gallery-explode">
-            <div class="img-slot"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
-            <div class="img-slot"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
-            <div class="img-slot"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
-            <div class="img-slot"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
-        </div>
-        <div class="text-overlay">
-            <span style="color:var(--gold); font-size: 0.6rem; letter-spacing: 5px;">01. FOUNDATION</span>
-            <h2 class="name-title">Мама</h2>
-            <p class="description">Душа нашего дома. Твое доброе сердце — это тихая гавань, где всегда тепло и спокойно. Ты научила нас любить мир и верить в лучшее.</p>
+    <section class="sec">
+        <div class="glass-card">
+            <div class="photo-side"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+            <div class="text-side">
+                <h2 class="name">Мама</h2>
+                <p class="desc">Душа нашего дома. Твое доброе сердце — это тихая гавань, где всегда тепло и спокойно. Ты научила нас любить мир и верить в лучшее.</p>
+            </div>
         </div>
     </section>
 
-    <section class="immersive-sec">
-        <div class="gallery-explode">
-            <div class="img-slot"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
-            <div class="img-slot"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
-            <div class="img-slot"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
-            <div class="img-slot"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
-        </div>
-        <div class="text-overlay">
-            <span style="color:var(--gold); font-size: 0.6rem; letter-spacing: 5px;">02. INSPIRATION</span>
-            <h2 class="name-title">Геля</h2>
-            <p class="description">Грация и свет. Ты умеешь видеть красоту в деталях и наполнять пространство вокруг себя невероятной энергией.</p>
+    <section class="sec">
+        <div class="glass-card" style="flex-direction: row-reverse;">
+            <div class="photo-side"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
+            <div class="text-side">
+                <h2 class="name" style="text-shadow: 4px 4px 0px var(--c5);">Геля</h2>
+                <p class="desc">Грация и свет. Ты умеешь видеть красоту в деталях и наполнять пространство вокруг себя невероятной энергией.</p>
+            </div>
         </div>
     </section>
 
-    <section class="immersive-sec">
-        <div class="gallery-explode">
-            <div class="img-slot"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
-            <div class="img-slot"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
-            <div class="img-slot"><img src="https://i.imgur.com/ZlokF30.jpg" ></div>
-            <div class="img-slot"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
-        </div>
-        <div class="text-overlay">
-            <span style="color:var(--gold); font-size: 0.6rem; letter-spacing: 5px;">03. ENERGY</span>
-            <h2 class="name-title">Кристина</h2>
-            <p class="description">Яркое солнце нашей семьи. Твоя решительность и искренняя улыбка заставляют двигаться вперед, несмотря на любые преграды.</p>
+    <section class="sec">
+        <div class="glass-card">
+            <div class="photo-side"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
+            <div class="text-side">
+                <h2 class="name" style="text-shadow: 4px 4px 0px var(--c4);">Кристина</h2>
+                <p class="desc">Яркое солнце нашей семьи. Твоя решительность и искренняя улыбка заставляют двигаться вперед, несмотря на любые преграды.</p>
+            </div>
         </div>
     </section>
-
-    <footer>S A R A P U L L O V E | 2026</footer>
 
     <script>
-        // 1. ПРОВЕРКА НА ТАЧ (Отключаем курсор на телефонах)
-        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-        const cursor = document.getElementById('cursor');
-        const trail = document.getElementById('cursor-trail');
-
-        if (!isTouch) {
-            cursor.style.display = 'block';
-            trail.style.display = 'block';
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
-                trail.style.left = e.clientX + 'px'; trail.style.top = e.clientY + 'px';
-            });
+        // 1. ЗАПУСК
+        function init() {
+            document.getElementById('welcome').style.opacity = '0';
+            setTimeout(() => document.getElementById('welcome').style.display = 'none', 500);
+            const audio = document.getElementById('myaudio');
+            audio.play();
         }
 
-        // 2. АНИМАЦИЯ СКРОЛЛА
+        // 2. СОЗДАНИЕ ПУЗЫРЕЙ
+        const bg = document.getElementById('bg');
+        for (let i = 0; i < 15; i++) {
+            const b = document.createElement('div');
+            b.className = 'bubble';
+            const size = Math.random() * 100 + 50 + 'px';
+            b.style.width = size; b.style.height = size;
+            b.style.left = Math.random() * 100 + 'vw';
+            b.style.animationDelay = Math.random() * 10 + 's';
+            b.style.opacity = Math.random() * 0.5;
+            document.body.appendChild(b);
+        }
+
+        // 3. АНИМАЦИЯ СКРОЛЛА
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-active');
-                    setTimeout(() => entry.target.classList.add('is-text-visible'), 800);
-                }
+                if (entry.isIntersecting) entry.target.classList.add('active');
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.3 });
+        document.querySelectorAll('.sec').forEach(s => observer.observe(s));
 
-        document.querySelectorAll('.immersive-sec').forEach(s => observer.observe(s));
-
-        // 3. МУЗЫКА
-        const audio = document.getElementById('bg-audio');
-        const status = document.getElementById('music-status');
-        let playing = false;
-
-        function playMusic() {
-            if(!playing) {
-                audio.play().then(() => { status.innerText = "Music: On"; playing = true; })
-                .catch(() => { audio.muted = true; audio.play(); status.innerText = "Tap again"; });
-            } else { audio.pause(); status.innerText = "Music: Off"; playing = false; }
-            if (audio.muted) audio.muted = false;
+        // 4. МУЗЫКА
+        function toggleMusic() {
+            const audio = document.getElementById('myaudio');
+            if (audio.paused) audio.play(); else audio.pause();
         }
     </script>
 </body>

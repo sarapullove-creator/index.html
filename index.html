@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>SARAPULLOVE | GALACTIC LEGACY</title>
+    <title>SARAPULLOVE | GALACTIC LEGACY 2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,600&family=Montserrat:wght@100;300;600;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -21,7 +21,7 @@
             background: var(--base-bg); color: #fff; scroll-behavior: smooth;
         }
 
-        /* --- 1. ВХОДНОЙ ЭКРАН: ХРОНОС-ПОРТАЛ --- */
+        /* --- 1. ВХОДНОЙ ЭКРАН --- */
         #splash {
             position: fixed; inset: 0; z-index: 10000;
             background: radial-gradient(circle at center, #1a113a 0%, #02010a 100%);
@@ -42,24 +42,26 @@
             box-shadow: 0 0 50px rgba(247, 215, 148, 0.6);
         }
 
-        /* --- 2. ЖИВОЙ ФОН: КОСМИЧЕСКАЯ СЕТКА И ЧАСТИЦЫ --- */
+        /* --- 2. ЖИВОЙ ФОН --- */
         #bg-canvas, #candy-canvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
         #bg-canvas { opacity: 0.3; }
 
-        /* --- 3. КУРСОР: ХРОНО-МАРКЕР --- */
+        /* --- 3. КУРСОР: ЧУПА-ЧУПС --- */
         #cursor {
-            position: fixed; width: 10px; height: 10px; background: #fff;
-            border-radius: 50%; pointer-events: none; z-index: 10000;
-            transform: translate(-50%, -50%); mix-blend-mode: difference;
+            position: fixed; pointer-events: none; z-index: 10001;
+            transform: translate(-50%, -50%); mix-blend-mode: normal;
+            font-size: 32px; /* Размер чупа-чупса */
+            display: flex; align-items: center; justify-content: center;
         }
         #cursor-trail {
-            position: fixed; width: 40px; height: 40px; border: 1px solid var(--cyan-neon);
+            position: fixed; width: 40px; height: 40px; border: 1px solid var(--gold-rose);
             border-radius: 50%; pointer-events: none; z-index: 9999;
             transform: translate(-50%, -50%); transition: 0.1s cubic-bezier(0.19, 1, 0.22, 1);
-            box-shadow: 0 0 15px var(--cyan-neon), inset 0 0 15px var(--cyan-neon);
+            box-shadow: 0 0 15px var(--gold-rose), inset 0 0 15px var(--gold-rose);
+            opacity: 0.5;
         }
 
-        /* --- 4. НАВИГАЦИЯ: ГОЛОГРАФИЧЕСКАЯ ПАНЕЛЬ --- */
+        /* --- 4. НАВИГАЦИЯ --- */
         nav {
             position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px);
             z-index: 5000; background: var(--glass);
@@ -71,7 +73,7 @@
         nav.show { transform: translateX(-50%) translateY(0); }
         nav button {
             background: none; border: none; font-family: 'Montserrat'; font-weight: 300;
-            color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; font-size: 0.7rem;
+            color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; font-size: 0.75rem;
             letter-spacing: 3px; transition: 0.3s; padding: 5px 10px; position: relative;
         }
         nav button::after { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 1px; background: var(--cyan-neon); transition: 0.3s; }
@@ -90,7 +92,7 @@
         }
         .hologram-sec.visible { opacity: 1; transform: translateY(0) rotateX(0) scale(1); filter: blur(0); }
 
-        /* --- КАРТОЧКИ: ОПАЛОВОЕ СТЕКЛО --- */
+        /* --- КАРТОЧКИ --- */
         .opal-card {
             background: var(--glass); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border-radius: 40px; padding: 60px; max-width: 1100px; margin: 0 auto;
@@ -111,7 +113,7 @@
         .joke-box { font-weight: 100; color: rgba(255,255,255,0.6); border-left: 2px solid var(--cyan-neon); padding-left: 25px; font-size: 1.1rem; line-height: 1.8; position: relative;}
         .joke-box::before { content: '“'; position: absolute; left: -15px; top: -10px; font-size: 3rem; color: var(--cyan-neon); opacity: 0.5; }
 
-        /* --- АЛЬБОМ: ГАЛАКТИЧЕСКАЯ СЕТКА --- */
+        /* --- АЛЬБОМ --- */
         .album-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 30px; padding: 0 5% 100px;
@@ -156,21 +158,20 @@
     <canvas id="bg-canvas"></canvas>
     <canvas id="candy-canvas"></canvas>
     
-    <div id="cursor"></div>
+    <div id="cursor">🍭</div>
     <div id="cursor-trail"></div>
 
     <nav id="navbar">
-        <button onclick="nav('home')">Origin</button>
-        <button onclick="nav('album')">Chronos</button>
-        <button onclick="nav('wishes')">Heart</button>
+        <button onclick="nav('home')">Основа</button>
+        <button onclick="nav('album')">Альбом</button>
     </nav>
 
     <div id="music-btn" onclick="toggle()">♪</div>
-    <audio id="track" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio>
+    <audio id="track" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
     <div id="home" class="page active">
         <section class="hologram-sec" style="text-align: center; margin-bottom: 70px;">
-            <h1 style="font-family: 'Cormorant Garamond'; font-size: 6vw; color: #fff; font-style: italic; font-weight: 100; letter-spacing: 5px;">The Origin Pillars</h1>
+            <h1 style="font-family: 'Cormorant Garamond'; font-size: 6vw; color: #fff; font-style: italic; font-weight: 100; letter-spacing: 5px;">Origin Pillars</h1>
         </section>
 
         <section class="hologram-sec">
@@ -205,7 +206,7 @@
 
         <section class="hologram-sec">
             <div class="opal-card">
-                <div class="photo-frame"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
+                <div class="photo-frame"><img src="https://i.imgur.com/EJ3ifaJ.jpg"></div>
                 <div class="text-side">
                     <h2>Кристина</h2>
                     <div class="joke-box" style="border-color: var(--gold-rose);">
@@ -221,20 +222,12 @@
 
     <div id="album" class="page">
         <div class="album-grid">
-            <div class="grid-item hologram-sec"><img src="https://imgur.com/qrbwqx6.jpg"></div>
-            <div class="grid-item hologram-sec"><img src="https://imgur.com/Pf8vQNK.jpg"></div>
-            <div class="grid-item hologram-sec"><img src="https://imgur.com/bT7swwk.jpg"></div>
-            <div class="grid-item hologram-sec"><img src="https://imgur.com/E2XmP5g.jpg"></div>
-            <div class="grid-item hologram-sec"><img src="https://imgur.com/LW1B50s.jpg"></div>
-        </div>
-    </div>
-
-    <div id="wishes" class="page">
-        <div class="opal-card hologram-sec" style="display: block; text-align: center; max-width: 800px;">
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Eternal Connection</h2>
-            <p style="font-weight: 100; font-size: 1.2rem; color: rgba(255,255,255,0.7); line-height: 1.9;">
-                Вы — три моих главных измерения, три разные вселенные, которые создают мой мир. Пусть этот цифровой маяк всегда напоминает вам о том, как сильно я вас люблю, где бы мы ни были. Улыбайтесь, сияйте и никогда не гасните. ❤️
-            </p>
+            <div class="grid-item hologram-sec"><img src="https://i.imgur.com/qrbwqx6.jpg"></div>
+            <div class="grid-item hologram-sec"><img src="https://i.imgur.com/Pf8vQNK.jpg"></div>
+            <div class="grid-item hologram-sec"><img src="https://i.imgur.com/bT7swwk.jpg"></div>
+            <div class="grid-item hologram-sec"><img src="https://i.imgur.com/E2XmP5g.jpg"></div>
+            <div class="grid-item hologram-sec"><img src="https://i.imgur.com/LW1B50s.jpg"></div>
+            <div class="grid-item hologram-sec"><img src="https://i.imgur.com/X5E9jlo.jpg"></div>
         </div>
     </div>
 
@@ -273,12 +266,12 @@
         }
         drawBg();
 
-        // --- 3. ЗОЛОТОЙ ДОЖДЬ (УМНЫЙ) ---
+        // --- 3. ЗОЛОТОЙ ДОЖДЬ ---
         const candyCanvas = document.getElementById('candy-canvas');
         const candyCtx = candyCanvas.getContext('2d');
         let candies = [];
         const types = ['🍭', '🍬', '✨', '🌟', '💖', '💎'];
-        const colors = ['#3ae3f2', '#f78fb3', '#f7d794']; // Cyan, Pink, Gold
+        const colors = ['#3ae3f2', '#f78fb3', '#f7d794'];
 
         function resizeCandy() { candyCanvas.width = window.innerWidth; candyCanvas.height = window.innerHeight; }
         window.onresize = () => { resizeBg(); resizeCandy(); }; resizeCandy();
@@ -294,7 +287,6 @@
             }
             update() { 
                 this.y += this.speed; this.rot += this.spin;
-                // Небольшое отталкивание от курсора
                 const dx = this.x - mouse.x; const dy = this.y - mouse.y;
                 const dist = Math.sqrt(dx*dx + dy*dy);
                 if(dist < 100) { this.x += dx/dist * 1; this.y += dy/dist * 1; }

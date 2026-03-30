@@ -3,181 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>SARAPULLOVE | COLORS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Pacifico&display=swap" rel="stylesheet">
+    <title>SARAPULLOVE | GOLDEN DREAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,600&family=Montserrat:wght@200;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --c1: #ff0080; --c2: #7928ca; --c3: #ff4d4d; --c4: #f9cb28; --c5: #00dfd8;
+            --gold: #f3e5ab;
+            --soft-pink: #ffd1dc;
+            --soft-blue: #bde0fe;
+            --white: rgba(255, 255, 255, 0.9);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: 'Montserrat', sans-serif; overflow-x: hidden;
-            background: #fff; color: #000;
+            background: #fff; color: #555; scroll-behavior: smooth;
         }
 
-        /* --- ЭКРАН ЗАПУСКА --- */
-        #welcome {
+        /* --- ЭКРАН ВХОДА --- */
+        #splash {
             position: fixed; inset: 0; z-index: 10000;
-            background: linear-gradient(45deg, var(--c1), var(--c2), var(--c5));
-            background-size: 400% 400%; animation: gradientBG 10s ease infinite;
+            background: radial-gradient(circle at center, var(--soft-pink), var(--soft-blue));
             display: flex; align-items: center; justify-content: center; flex-direction: column;
+            transition: 1s ease;
         }
         .start-btn {
-            padding: 30px 60px; font-size: 2rem; font-weight: 900; color: #fff;
-            background: rgba(255,255,255,0.2); border: 4px solid #fff;
-            border-radius: 100px; cursor: pointer; backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2); transition: 0.3s;
+            padding: 20px 50px; font-family: 'Cormorant Garamond'; font-size: 2rem;
+            background: white; border: none; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); color: #d4af37; transition: 0.3s;
         }
-        .start-btn:hover { transform: scale(1.1); background: #fff; color: var(--c1); }
+        .start-btn:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3); }
 
-        /* --- ЖИВОЙ ФОН --- */
-        .bg-wrapper {
-            position: fixed; inset: 0; z-index: -1;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+        /* --- ЖИВОЙ ФОН И КОНФЕТЫ --- */
+        .candy-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
         }
-        @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
-
-        /* Летающие пузыри */
-        .bubble {
-            position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(5px); z-index: 0; animation: float 20s infinite linear;
-        }
-        @keyframes float { 
-            0% { transform: translateY(100vh) scale(1); } 
-            100% { transform: translateY(-100vh) scale(1.5); } 
+        .bg-mesh {
+            position: fixed; inset: 0; z-index: -2;
+            background: linear-gradient(135deg, #fff5f7 0%, #f0faff 100%);
         }
 
-        /* --- КОНТЕНТ --- */
-        section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 50px 20px; position: relative; }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 40px; padding: 50px; width: 100%; max-width: 1100px;
-            display: flex; align-items: center; gap: 40px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-            transform: translateY(50px); opacity: 0; transition: 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        /* --- НАВИГАЦИЯ --- */
+        nav {
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 5000; background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px); padding: 12px 40px; border-radius: 50px;
+            display: flex; gap: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         }
-        .active .glass-card { transform: translateY(0); opacity: 1; }
-
-        .photo-side { width: 50%; position: relative; }
-        .photo-side img { 
-            width: 100%; border-radius: 30px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            transition: 0.5s; border: 10px solid #fff;
+        nav button {
+            background: none; border: none; font-family: 'Montserrat'; font-weight: 400;
+            color: #d4af37; cursor: pointer; text-transform: uppercase; font-size: 0.7rem;
+            letter-spacing: 2px; transition: 0.3s;
         }
-        .photo-side:hover img { transform: rotate(-3deg) scale(1.05); }
+        nav button:hover { color: #f3e5ab; transform: translateY(-2px); }
 
-        .text-side { width: 50%; }
-        .name { 
-            font-size: clamp(3rem, 8vw, 6rem); color: #fff; 
-            text-shadow: 4px 4px 0px var(--c1); margin-bottom: 20px;
-            font-family: 'Montserrat', sans-serif; text-transform: uppercase;
+        /* --- СИСТЕМА СТРАНИЦ --- */
+        .page { display: none; padding-top: 120px; min-height: 100vh; perspective: 2000px; }
+        .page.active { display: block; }
+
+        /* --- ЭФФЕКТ РАЗВЕРТЫВАНИЯ (UNFOLDING) --- */
+        .unfold-sec {
+            opacity: 0; transform: rotateX(-30deg) translateY(100px);
+            transform-origin: top; transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            margin-bottom: 100px;
         }
-        .desc { 
-            font-size: 1.3rem; line-height: 1.6; color: #fff; 
-            background: rgba(0,0,0,0.1); padding: 20px; border-radius: 20px;
+        .unfold-sec.visible { opacity: 1; transform: rotateX(0deg) translateY(0); }
+
+        /* --- КАРТОЧКИ --- */
+        .glass-wrap {
+            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(15px);
+            border-radius: 40px; padding: 60px; max-width: 1000px; margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.05);
+            display: flex; align-items: center; gap: 50px;
+        }
+        .photo-box { width: 45%; border-radius: 30px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 8px solid #fff; }
+        .photo-box img { width: 100%; height: auto; display: block; }
+
+        .text-box h2 { font-family: 'Cormorant Garamond'; font-size: 4rem; color: #d4af37; margin-bottom: 20px; font-style: italic; }
+        .text-box p { font-size: 1.1rem; line-height: 1.8; color: #777; font-weight: 300; }
+
+        /* --- ГАЛЕРЕЯ --- */
+        .candy-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px; padding: 0 5%;
+        }
+        .grid-item {
+            border-radius: 25px; overflow: hidden; border: 10px solid #fff;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05); transition: 0.5s;
+        }
+        .grid-item:hover { transform: scale(1.02) rotate(1deg); box-shadow: 0 20px 40px rgba(243, 229, 171, 0.5); }
+        .grid-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Плеер */
+        #music-btn {
+            position: fixed; bottom: 30px; left: 30px; z-index: 5000;
+            background: #fff; width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); color: #d4af37;
         }
 
-        /* Кнопка музыки */
-        #music-control {
-            position: fixed; top: 20px; right: 20px; z-index: 1000;
-            width: 60px; height: 60px; background: #fff; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        @media (max-width: 900px) {
-            .glass-card { flex-direction: column; padding: 20px; text-align: center; }
-            .photo-side, .text-side { width: 100%; }
-            .name { font-size: 3rem; }
+        @media (max-width: 850px) {
+            .glass-wrap { flex-direction: column; padding: 30px; text-align: center; }
+            .photo-box { width: 100%; }
+            .text-box h2 { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="welcome">
-        <h1 style="color:#fff; font-size: 4rem; margin-bottom: 30px; text-shadow: 0 10px 20px rgba(0,0,0,0.2);">SARAPULLOVE</h1>
-        <button class="start-btn" onclick="init()">CLICK TO START</button>
+    <div id="splash">
+        <h1 style="font-family: 'Cormorant Garamond'; color: #fff; font-size: 4rem; margin-bottom: 30px; font-style: italic;">Sarapullove</h1>
+        <button class="start-btn" onclick="startApp()">Enter the Dream</button>
     </div>
 
-    <div class="bg-wrapper" id="bg"></div>
-    <div id="music-control" onclick="toggleMusic()">🎵</div>
-    <audio id="myaudio" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+    <div class="bg-mesh"></div>
+    <canvas id="candyCanvas" class="candy-canvas"></canvas>
 
-    <section id="hero">
-        <h1 style="font-size: 10vw; color: #fff; text-shadow: 10px 10px 0 var(--c2);">FAMILY</h1>
-    </section>
+    <nav id="navbar" style="display: none;">
+        <button onclick="showPage('home')">Семья</button>
+        <button onclick="showPage('gallery')">Альбом</button>
+        <button onclick="showPage('wishes')">Сердце</button>
+    </nav>
 
-    <section class="sec">
-        <div class="glass-card">
-            <div class="photo-side"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
-            <div class="text-side">
-                <h2 class="name">Мама</h2>
-                <p class="desc">Душа нашего дома. Твое доброе сердце — это тихая гавань, где всегда тепло и спокойно. Ты научила нас любить мир и верить в лучшее.</p>
+    <div id="music-btn" onclick="toggleMusic()">♪</div>
+    <audio id="piano" loop src="https://dl.dropboxusercontent.com/s/e52x0v2y7i1y7w7/Einaudi_Experience_Cut.mp3"></audio>
+
+    <div id="home" class="page active">
+        <section class="unfold-sec" style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-family: 'Cormorant Garamond'; font-size: 6vw; color: #d4af37; font-style: italic;">Мои любимые</h1>
+        </section>
+
+        <section class="unfold-sec">
+            <div class="glass-wrap">
+                <div class="photo-box"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+                <div class="text-box">
+                    <h2>Мама</h2>
+                    <p>Ты наш нежный ангел. Спасибо за каждое утро, наполненное твоей теплотой и заботой.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="unfold-sec">
+            <div class="glass-wrap" style="flex-direction: row-reverse;">
+                <div class="photo-box"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
+                <div class="text-box">
+                    <h2>Геля</h2>
+                    <p>Твоя улыбка — как весеннее солнце. Пусть твоя жизнь будет такой же сладкой и яркой!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="unfold-sec">
+            <div class="glass-wrap">
+                <div class="photo-box"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
+                <div class="text-box">
+                    <h2>Кристина</h2>
+                    <p>Ты наше вдохновение и энергия. Сияй ярче всех звезд, ведь ты этого достойна.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="gallery" class="page">
+        <div class="candy-grid">
+            <div class="grid-item unfold-sec"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+            <div class="grid-item unfold-sec"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
+            <div class="grid-item unfold-sec"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
+            <div class="grid-item unfold-sec"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+        </div>
+    </div>
+
+    <div id="wishes" class="page">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 40px;">
+            <div class="glass-wrap unfold-sec" style="max-width: 600px; text-align: center; display: block;">
+                <h3 style="color: #d4af37; font-family: 'Cormorant Garamond'; font-size: 2.5rem; margin-bottom: 20px;">Особенное пожелание</h3>
+                <p>Я хочу, чтобы вы всегда чувствовали поддержку. Этот сайт — маленькая часть моей любви к вам.</p>
             </div>
         </div>
-    </section>
-
-    <section class="sec">
-        <div class="glass-card" style="flex-direction: row-reverse;">
-            <div class="photo-side"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
-            <div class="text-side">
-                <h2 class="name" style="text-shadow: 4px 4px 0px var(--c5);">Геля</h2>
-                <p class="desc">Грация и свет. Ты умеешь видеть красоту в деталях и наполнять пространство вокруг себя невероятной энергией.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="sec">
-        <div class="glass-card">
-            <div class="photo-side"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
-            <div class="text-side">
-                <h2 class="name" style="text-shadow: 4px 4px 0px var(--c4);">Кристина</h2>
-                <p class="desc">Яркое солнце нашей семьи. Твоя решительность и искренняя улыбка заставляют двигаться вперед, несмотря на любые преграды.</p>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <script>
-        // 1. ЗАПУСК
-        function init() {
-            document.getElementById('welcome').style.opacity = '0';
-            setTimeout(() => document.getElementById('welcome').style.display = 'none', 500);
-            const audio = document.getElementById('myaudio');
-            audio.play();
+        // 1. КОНФЕТНЫЙ ДОЖДЬ
+        const canvas = document.getElementById('candyCanvas');
+        const ctx = canvas.getContext('2d');
+        let candies = [];
+        const candyEmojis = ['🍭', '🍬', '✨', '🌟', '🍩', '💖'];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.onresize = initCanvas;
+        initCanvas();
+
+        class Candy {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height;
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -50;
+                this.size = Math.random() * 20 + 20;
+                this.speed = Math.random() * 1 + 0.5;
+                this.emoji = candyEmojis[Math.floor(Math.random() * candyEmojis.length)];
+                this.angle = Math.random() * Math.PI * 2;
+                this.spin = Math.random() * 0.02 - 0.01;
+            }
+            update() {
+                this.y += this.speed;
+                this.angle += this.spin;
+                if (this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.font = `${this.size}px serif`;
+                ctx.textAlign = 'center';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "rgba(212, 175, 55, 0.4)";
+                ctx.fillText(this.emoji, 0, 0);
+                ctx.restore();
+            }
         }
 
-        // 2. СОЗДАНИЕ ПУЗЫРЕЙ
-        const bg = document.getElementById('bg');
-        for (let i = 0; i < 15; i++) {
-            const b = document.createElement('div');
-            b.className = 'bubble';
-            const size = Math.random() * 100 + 50 + 'px';
-            b.style.width = size; b.style.height = size;
-            b.style.left = Math.random() * 100 + 'vw';
-            b.style.animationDelay = Math.random() * 10 + 's';
-            b.style.opacity = Math.random() * 0.5;
-            document.body.appendChild(b);
-        }
+        for(let i=0; i<30; i++) candies.push(new Candy());
 
-        // 3. АНИМАЦИЯ СКРОЛЛА
+        function animate() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            candies.forEach(c => { c.update(); c.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // 2. РАЗВЕРТЫВАНИЕ ПРИ СКРОЛЛЕ
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-        }, { threshold: 0.3 });
-        document.querySelectorAll('.sec').forEach(s => observer.observe(s));
+        }, { threshold: 0.1 });
 
-        // 4. МУЗЫКА
+        function observeElements() {
+            document.querySelectorAll('.unfold-sec').forEach(el => observer.observe(el));
+        }
+        observeElements();
+
+        // 3. УПРАВЛЕНИЕ САЙТОМ
+        function startApp() {
+            document.getElementById('splash').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('splash').style.display = 'none';
+                document.getElementById('navbar').style.display = 'flex';
+                observeElements();
+            }, 1000);
+            document.getElementById('piano').play();
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+            setTimeout(observeElements, 100);
+        }
+
         function toggleMusic() {
-            const audio = document.getElementById('myaudio');
-            if (audio.paused) audio.play(); else audio.pause();
+            const p = document.getElementById('piano');
+            if (p.paused) p.play(); else p.pause();
         }
     </script>
 </body>

@@ -3,275 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>SARAPULLOVE | GOLDEN DREAM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,600&family=Montserrat:wght@200;400;700&display=swap" rel="stylesheet">
+    <title>SARAPULLOVE | PREMIUM GOLD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,700&family=Montserrat:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #f3e5ab;
-            --soft-pink: #ffd1dc;
-            --soft-blue: #bde0fe;
-            --white: rgba(255, 255, 255, 0.9);
+            --gold-main: #d4af37;
+            --gold-light: #f3e5ab;
+            --gold-dark: #b8860b;
+            --white: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: 'Montserrat', sans-serif; overflow-x: hidden;
-            background: #fff; color: #555; scroll-behavior: smooth;
+            background: #fff; color: #444; scroll-behavior: smooth;
         }
 
-        /* --- ЭКРАН ВХОДА --- */
+        /* --- GOLDEN SPLASH --- */
         #splash {
             position: fixed; inset: 0; z-index: 10000;
-            background: radial-gradient(circle at center, var(--soft-pink), var(--soft-blue));
+            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            background-size: 400% 400%; animation: goldShimmer 8s infinite linear;
             display: flex; align-items: center; justify-content: center; flex-direction: column;
-            transition: 1s ease;
         }
+        @keyframes goldShimmer { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
         .start-btn {
-            padding: 20px 50px; font-family: 'Cormorant Garamond'; font-size: 2rem;
-            background: white; border: none; border-radius: 50px; cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); color: #d4af37; transition: 0.3s;
+            padding: 25px 60px; font-family: 'Cormorant Garamond'; font-size: 2.2rem;
+            background: white; border: none; border-radius: 100px; cursor: pointer;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2); color: var(--gold-dark); font-weight: 700;
+            transition: 0.4s;
         }
-        .start-btn:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3); }
+        .start-btn:hover { transform: scale(1.1) rotate(-2deg); box-shadow: 0 20px 60px rgba(212, 175, 55, 0.6); }
 
-        /* --- ЖИВОЙ ФОН И КОНФЕТЫ --- */
-        .candy-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none;
-        }
-        .bg-mesh {
+        /* --- ЧУПА-ЧУПСЫ И ЗОЛОТОЙ ДОЖДЬ --- */
+        .candy-canvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        
+        .bg-gold-mesh {
             position: fixed; inset: 0; z-index: -2;
-            background: linear-gradient(135deg, #fff5f7 0%, #f0faff 100%);
+            background: radial-gradient(circle at top right, #fff9e6, transparent),
+                        radial-gradient(circle at bottom left, #fff0b3, transparent);
+            background-color: #fff;
         }
 
-        /* --- НАВИГАЦИЯ --- */
+        /* --- NAV --- */
         nav {
-            position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
-            z-index: 5000; background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(10px); padding: 12px 40px; border-radius: 50px;
-            display: flex; gap: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
+            z-index: 5000; background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(15px); padding: 10px 40px; border-radius: 100px;
+            display: flex; gap: 25px; border: 1px solid var(--gold-light);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
         }
         nav button {
-            background: none; border: none; font-family: 'Montserrat'; font-weight: 400;
-            color: #d4af37; cursor: pointer; text-transform: uppercase; font-size: 0.7rem;
+            background: none; border: none; font-family: 'Montserrat'; font-weight: 600;
+            color: var(--gold-dark); cursor: pointer; text-transform: uppercase; font-size: 0.75rem;
             letter-spacing: 2px; transition: 0.3s;
         }
-        nav button:hover { color: #f3e5ab; transform: translateY(-2px); }
+        nav button:hover { color: #000; letter-spacing: 4px; }
 
-        /* --- СИСТЕМА СТРАНИЦ --- */
-        .page { display: none; padding-top: 120px; min-height: 100vh; perspective: 2000px; }
+        /* --- PAGES --- */
+        .page { display: none; padding-top: 140px; min-height: 100vh; perspective: 1500px; }
         .page.active { display: block; }
 
-        /* --- ЭФФЕКТ РАЗВЕРТЫВАНИЯ (UNFOLDING) --- */
-        .unfold-sec {
-            opacity: 0; transform: rotateX(-30deg) translateY(100px);
-            transform-origin: top; transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-            margin-bottom: 100px;
+        /* --- UNFOLD ANIMATION --- */
+        .unfold {
+            opacity: 0; transform: rotateX(-25deg) scale(0.9);
+            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            margin-bottom: 80px;
         }
-        .unfold-sec.visible { opacity: 1; transform: rotateX(0deg) translateY(0); }
+        .unfold.visible { opacity: 1; transform: rotateX(0) scale(1); }
 
-        /* --- КАРТОЧКИ --- */
-        .glass-wrap {
-            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(15px);
-            border-radius: 40px; padding: 60px; max-width: 1000px; margin: 0 auto;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.05);
-            display: flex; align-items: center; gap: 50px;
+        /* --- GLASS CARD --- */
+        .premium-card {
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px);
+            border-radius: 50px; padding: 50px; max-width: 1100px; margin: 0 auto;
+            border: 2px solid var(--gold-light); display: flex; align-items: center; gap: 40px;
+            box-shadow: 0 40px 100px rgba(212, 175, 55, 0.1);
         }
-        .photo-box { width: 45%; border-radius: 30px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 8px solid #fff; }
-        .photo-box img { width: 100%; height: auto; display: block; }
+        .photo-frame { width: 45%; border-radius: 35px; overflow: hidden; border: 10px solid #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .photo-frame img { width: 100%; display: block; }
 
-        .text-box h2 { font-family: 'Cormorant Garamond'; font-size: 4rem; color: #d4af37; margin-bottom: 20px; font-style: italic; }
-        .text-box p { font-size: 1.1rem; line-height: 1.8; color: #777; font-weight: 300; }
+        .text-side h2 { font-family: 'Cormorant Garamond'; font-size: 4.5rem; color: var(--gold-dark); margin-bottom: 15px; }
+        .joke-box { font-style: italic; color: #888; border-left: 3px solid var(--gold-main); padding-left: 20px; font-size: 1.2rem; line-height: 1.6; }
 
-        /* --- ГАЛЕРЕЯ --- */
-        .candy-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px; padding: 0 5%;
+        /* --- ALBUM GRID --- */
+        .album-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; padding: 0 5% 100px;
         }
-        .grid-item {
-            border-radius: 25px; overflow: hidden; border: 10px solid #fff;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.05); transition: 0.5s;
+        .album-item {
+            background: #fff; padding: 15px; border-radius: 30px; border: 1px solid var(--gold-light);
+            transition: 0.5s; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
-        .grid-item:hover { transform: scale(1.02) rotate(1deg); box-shadow: 0 20px 40px rgba(243, 229, 171, 0.5); }
-        .grid-item img { width: 100%; height: 100%; object-fit: cover; }
+        .album-item:hover { transform: translateY(-15px) rotate(2deg); box-shadow: 0 30px 60px rgba(212, 175, 55, 0.3); }
+        .album-item img { width: 100%; border-radius: 20px; }
 
-        /* Плеер */
-        #music-btn {
+        #music-toggle {
             position: fixed; bottom: 30px; left: 30px; z-index: 5000;
-            background: #fff; width: 50px; height: 50px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); color: #d4af37;
+            background: var(--gold-dark); color: white; width: 60px; height: 60px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-        @media (max-width: 850px) {
-            .glass-wrap { flex-direction: column; padding: 30px; text-align: center; }
-            .photo-box { width: 100%; }
-            .text-box h2 { font-size: 3rem; }
+        @media (max-width: 900px) {
+            .premium-card { flex-direction: column; text-align: center; padding: 30px; }
+            .photo-frame { width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <div id="splash">
-        <h1 style="font-family: 'Cormorant Garamond'; color: #fff; font-size: 4rem; margin-bottom: 30px; font-style: italic;">Sarapullove</h1>
-        <button class="start-btn" onclick="startApp()">Enter the Dream</button>
+        <h1 style="font-family: 'Cormorant Garamond'; color: var(--gold-dark); font-size: 3.5rem; margin-bottom: 30px;">Premium Legacy</h1>
+        <button class="start-btn" onclick="unlock()">ENTER</button>
     </div>
 
-    <div class="bg-mesh"></div>
-    <canvas id="candyCanvas" class="candy-canvas"></canvas>
+    <div class="bg-gold-mesh"></div>
+    <canvas id="rain" class="candy-canvas"></canvas>
 
     <nav id="navbar" style="display: none;">
-        <button onclick="showPage('home')">Семья</button>
-        <button onclick="showPage('gallery')">Альбом</button>
-        <button onclick="showPage('wishes')">Сердце</button>
+        <button onclick="nav('home')">Family</button>
+        <button onclick="nav('album')">Album</button>
+        <button onclick="nav('wishes')">Quotes</button>
     </nav>
 
-    <div id="music-btn" onclick="toggleMusic()">♪</div>
-    <audio id="piano" loop src="https://dl.dropboxusercontent.com/s/e52x0v2y7i1y7w7/Einaudi_Experience_Cut.mp3"></audio>
+    <div id="music-toggle" onclick="toggle()">♪</div>
+    <audio id="track" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio>
 
     <div id="home" class="page active">
-        <section class="unfold-sec" style="text-align: center; margin-bottom: 50px;">
-            <h1 style="font-family: 'Cormorant Garamond'; font-size: 6vw; color: #d4af37; font-style: italic;">Мои любимые</h1>
+        <section class="unfold" style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-family: 'Cormorant Garamond'; font-size: 5vw; color: var(--gold-dark); letter-spacing: 10px;">GOLDEN QUEENS</h1>
         </section>
 
-        <section class="unfold-sec">
-            <div class="glass-wrap">
-                <div class="photo-box"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
-                <div class="text-box">
+        <section class="unfold">
+            <div class="premium-card">
+                <div class="photo-frame"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+                <div class="text-side">
                     <h2>Мама</h2>
-                    <p>Ты наш нежный ангел. Спасибо за каждое утро, наполненное твоей теплотой и заботой.</p>
+                    <div class="joke-box">
+                        «Мам, я есть хочу!»<br>
+                        — «Сходи на кухню, там на столе лежит яблоко».<br>
+                        «Оно не вкусное...»<br>
+                        — «Значит, ты не хочешь есть!»
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="unfold-sec">
-            <div class="glass-wrap" style="flex-direction: row-reverse;">
-                <div class="photo-box"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
-                <div class="text-box">
+        <section class="unfold">
+            <div class="premium-card" style="flex-direction: row-reverse;">
+                <div class="photo-frame"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
+                <div class="text-side">
                     <h2>Геля</h2>
-                    <p>Твоя улыбка — как весеннее солнце. Пусть твоя жизнь будет такой же сладкой и яркой!</p>
+                    <div class="joke-box">
+                        — Геля, ты почему вчера в школе отсутствовала?<br>
+                        — А я подарок школе делала!<br>
+                        — Какой?<br>
+                        — Отдыхала от неё! 😂
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="unfold-sec">
-            <div class="glass-wrap">
-                <div class="photo-box"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
-                <div class="text-box">
+        <section class="unfold">
+            <div class="premium-card">
+                <div class="photo-frame"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
+                <div class="text-side">
                     <h2>Кристина</h2>
-                    <p>Ты наше вдохновение и энергия. Сияй ярче всех звезд, ведь ты этого достойна.</p>
+                    <div class="joke-box">
+                        — Кристина, сколько будет дважды два?<br>
+                        — Пять!<br>
+                        — Почему пять?!<br>
+                        — А я так чувствую, я творческая личность! ✨
+                    </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <div id="gallery" class="page">
-        <div class="candy-grid">
-            <div class="grid-item unfold-sec"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
-            <div class="grid-item unfold-sec"><img src="https://i.imgur.com/s4bocNt.jpg"></div>
-            <div class="grid-item unfold-sec"><img src="https://i.imgur.com/ZlokF30.jpg"></div>
-            <div class="grid-item unfold-sec"><img src="https://i.imgur.com/DtgvEMC.jpg"></div>
+    <div id="album" class="page">
+        <div class="album-grid">
+            <div class="album-item unfold"><img src="https://imgur.com/qrbwqx6.jpg"></div>
+            <div class="album-item unfold"><img src="https://imgur.com/Pf8vQNK.jpg"></div>
+            <div class="album-item unfold"><img src="https://imgur.com/bT7swwk.jpg"></div>
+            <div class="album-item unfold"><img src="https://imgur.com/E2XmP5g.jpg"></div>
+            <div class="album-item unfold"><img src="https://imgur.com/LW1B50s.jpg"></div>
         </div>
     </div>
 
     <div id="wishes" class="page">
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 40px;">
-            <div class="glass-wrap unfold-sec" style="max-width: 600px; text-align: center; display: block;">
-                <h3 style="color: #d4af37; font-family: 'Cormorant Garamond'; font-size: 2.5rem; margin-bottom: 20px;">Особенное пожелание</h3>
-                <p>Я хочу, чтобы вы всегда чувствовали поддержку. Этот сайт — маленькая часть моей любви к вам.</p>
-            </div>
+        <div class="premium-card unfold" style="display: block; text-align: center;">
+            <h2 style="font-size: 3rem;">Улыбайтесь чаще!</h2>
+            <p style="margin-top: 20px; font-size: 1.4rem;">Вы — мои самые любимые люди. Пусть этот сайт напоминает вам, что жизнь — это не только дела, но и вот такие золотые моменты.</p>
         </div>
     </div>
 
     <script>
-        // 1. КОНФЕТНЫЙ ДОЖДЬ
-        const canvas = document.getElementById('candyCanvas');
+        // 1. ЗОЛОТОЙ ДОЖДЬ (СЛАДОСТИ)
+        const canvas = document.getElementById('rain');
         const ctx = canvas.getContext('2d');
-        let candies = [];
-        const candyEmojis = ['🍭', '🍬', '✨', '🌟', '🍩', '💖'];
+        let items = [];
+        const types = ['🍭', '🍬', '🌟', '✨', '💎'];
 
-        function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.onresize = initCanvas;
-        initCanvas();
+        function init() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = init; init();
 
-        class Candy {
-            constructor() {
-                this.reset();
-                this.y = Math.random() * canvas.height;
-            }
+        class Item {
+            constructor() { this.reset(); this.y = Math.random() * canvas.height; }
             reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = -50;
-                this.size = Math.random() * 20 + 20;
-                this.speed = Math.random() * 1 + 0.5;
-                this.emoji = candyEmojis[Math.floor(Math.random() * candyEmojis.length)];
-                this.angle = Math.random() * Math.PI * 2;
-                this.spin = Math.random() * 0.02 - 0.01;
+                this.x = Math.random() * canvas.width; this.y = -50;
+                this.size = Math.random() * 25 + 20; this.speed = Math.random() * 1.5 + 0.5;
+                this.emoji = types[Math.floor(Math.random() * types.length)];
+                this.rot = Math.random() * Math.PI * 2; this.spin = Math.random() * 0.02 - 0.01;
             }
-            update() {
-                this.y += this.speed;
-                this.angle += this.spin;
-                if (this.y > canvas.height) this.reset();
+            update() { 
+                this.y += this.speed; this.rot += this.spin;
+                if (this.y > canvas.height) this.reset(); 
             }
             draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.angle);
-                ctx.font = `${this.size}px serif`;
-                ctx.textAlign = 'center';
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = "rgba(212, 175, 55, 0.4)";
-                ctx.fillText(this.emoji, 0, 0);
-                ctx.restore();
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rot);
+                ctx.font = `${this.size}px serif`; ctx.textAlign = 'center';
+                ctx.shadowBlur = 15; ctx.shadowColor = "gold";
+                ctx.fillText(this.emoji, 0, 0); ctx.restore();
             }
         }
-
-        for(let i=0; i<30; i++) candies.push(new Candy());
-
-        function animate() {
+        for(let i=0; i<40; i++) items.push(new Item());
+        function anim() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            candies.forEach(c => { c.update(); c.draw(); });
-            requestAnimationFrame(animate);
+            items.forEach(i => { i.update(); i.draw(); });
+            requestAnimationFrame(anim);
         }
-        animate();
+        anim();
 
-        // 2. РАЗВЕРТЫВАНИЕ ПРИ СКРОЛЛЕ
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
+        // 2. UNFOLD OBSERVER
+        const obs = new IntersectionObserver((es) => {
+            es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
         }, { threshold: 0.1 });
 
-        function observeElements() {
-            document.querySelectorAll('.unfold-sec').forEach(el => observer.observe(el));
-        }
-        observeElements();
+        function refreshObs() { document.querySelectorAll('.unfold').forEach(u => obs.observe(u)); }
 
-        // 3. УПРАВЛЕНИЕ САЙТОМ
-        function startApp() {
+        // 3. MUSIC & APP START
+        const audio = document.getElementById('track');
+        function unlock() {
             document.getElementById('splash').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('splash').style.display = 'none';
                 document.getElementById('navbar').style.display = 'flex';
-                observeElements();
+                refreshObs();
             }, 1000);
-            document.getElementById('piano').play();
+            audio.play(); // ТЕПЕРЬ МУЗЫКА ЗАПОЕТ 100%
         }
 
-        function showPage(id) {
+        function nav(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             window.scrollTo(0,0);
-            setTimeout(observeElements, 100);
+            setTimeout(refreshObs, 100);
         }
 
-        function toggleMusic() {
-            const p = document.getElementById('piano');
-            if (p.paused) p.play(); else p.pause();
-        }
+        function toggle() { if(audio.paused) audio.play(); else audio.pause(); }
     </script>
 </body>
 </html>
